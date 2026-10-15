@@ -1,6 +1,8 @@
+import "../App.css"
+
 export default function LoginButton(){
     return (
-        <button>
+        <button className="LoginButton-class">
             LOGIN
         </button>
     );
