@@ -58,11 +58,11 @@ section:has(> .header-class) {
   box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
 }
 
-.LoginButton-class:hover {
+/* .LoginButton-class:hover {
   background-color: #c9511e;
   transform: translateY(-100px);
   box-shadow: 0 4px 10px rgba(223, 98, 44, 0.45);
-}
+} */
 
 .meeting-grid {
   display: grid;
@@ -141,4 +141,62 @@ section:has(> .header-class) {
   .header-class, .footer-class {
     padding: 1rem 1.25rem;
   }
+}
+
+.login-page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-wrapper {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 550px;
+  max-width: 90vw;
+  padding: 40px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background-color: var(--bg-light);
+  box-sizing: border-box;
+  height: auto;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #007bff;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-submit-btn:hover {
+  background-color: #0056b3;
 }
