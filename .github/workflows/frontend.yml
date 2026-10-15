@@ -1,0 +1,44 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      # - name: Run tests
+      #   working-directory: frontend
+      #   run: npm test -- --watchAll=false
+
+      - name: Build project
+        working-directory: frontend
+        env:
+          # Skickar in backendens URL när React bygger produktionsfilerna
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: npm run build
+
+      # När ni är redo att driftsätta till Azure App Service:
+      # - name: Deploy to Azure Web App
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: ${{ secrets.AZURE_FRONTEND_APP_NAME }}
+      #     publish-profile: ${{ secrets.AZURE_FRONTEND_PUBLISH_PROFILE }}
+      #     package: ./frontend/dist   # (eller ./frontend/build om ni kör Create-React-App)
