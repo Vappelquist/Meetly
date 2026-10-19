@@ -7,9 +7,9 @@
         public string description { get; set; }
         public string Place { get;set; }
         public DateTime Time { get; set; }
-
         public int HostId { get; set; }
         public user Host { get; set; } = null;
+        public int maxCapacity { get; set; }
 
         public ICollection<user> Attendes { get; set; }
 
