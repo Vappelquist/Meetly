@@ -43,48 +43,6 @@ section:has(> .header-class) {
   font-weight: 700;
 }
 
-.LoginButton-class {
-  background-color: var(--orange);
-  color: #ffffff;
-  border: none;
-  outline: none;
-  border-radius: 6px;
-  padding: 10px 22px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
-}
-
-.BackButton-class {
-  width: fit-content;
-  align-self: flex-start;
-  margin-top: 20px;
-  margin-left: 20px;
-  border-radius: 25px;
-  padding: 10px 22px;
-  background-color: var(--orange);
-  color: #ffffff;
-  border: 2px solid rgb(0, 0, 0);
-  outline: none;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
-}
-
-.BackButton-class:hover {
-  background-color: #c9511e;
-  transform: translateY(-1px);
-}
-
-.HeaderTitle-class {
-}
-
 .HeaderTitle-class {
   background: none;
   border: none;
@@ -100,19 +58,58 @@ section:has(> .header-class) {
   margin: 0;
 }
 
+.LoginButton-class {
+  background-color: var(--orange);
+  color: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
+}
+
 .LoginButton-class:hover {
   background-color: #c9511e;
-  transform: translateY(-5px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(223, 98, 44, 0.45);
-} 
+}
+
+.BackButton-class {
+  width: fit-content;
+  align-self: flex-start;
+  margin-top: 20px;
+  margin-left: 20px;
+  border-radius: 25px;
+  padding: 10px 22px;
+  background-color: var(--orange);
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  outline: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
+}
+
+.BackButton-class:hover {
+  background-color: #c9511e;
+  transform: translateY(-1px);
+}
 
 .meeting-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;                            
+  gap: 2rem;
   padding: 2.5rem;
-  max-width: 1200px;                    
-  margin: 0 auto;                   
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
 }
 
@@ -120,16 +117,16 @@ section:has(> .header-class) {
   background-color: #ffffff;
   border: 1px solid var(--muted-teal);
   border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  min-height: 280px;
+  padding: 1.5rem;
   width: 100%;
-  margin: 0;                             
+  margin: 0;
   box-shadow: 0 6px 16px rgba(0, 32, 70, 0.08);
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0.75rem;
+  align-items: start;
+  min-height: 190px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -139,33 +136,72 @@ section:has(> .header-class) {
 }
 
 .MeetingCard-class img {
-  order: 1;                
-  width: 140px;
-  height: 100px;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 160px;
+  height: 120px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #f1f5f9;
   border: 1px solid #e2e8f0;
-  flex-shrink: 0;           
+  align-self: start;
 }
 
 .MeetingCard-class h2 {
-  order: 2;                
+  grid-column: 2;
+  grid-row: 1;
   color: var(--navy);
   font-size: 1.3rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 3px solid var(--turquoise);
   padding-bottom: 4px;
+  margin: 0;
   text-align: left;
-  flex-grow: 1;
+}
+
+.MeetingCard-class p {
+  grid-column: 2;
+  grid-row: 2;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
+  margin: 0;
+}
+
+.card-content {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card-content h2 {
+  color: var(--navy);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 3px solid var(--turquoise);
+  padding-bottom: 4px;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.card-content p {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
 }
 
 .footer-class {
   background-color: var(--navy);
   color: var(--muted-teal);
-  text-align: left;        
-  padding: 1.5rem 2.5rem;   
-  margin-top: auto;         
+  text-align: left;
+  padding: 1.5rem 2.5rem;
+  margin-top: auto;
   border-top: 2px solid var(--turquoise);
 }
 
@@ -173,17 +209,6 @@ section:has(> .header-class) {
   font-size: 0.95rem;
   font-weight: 400;
   letter-spacing: 0.5px;
-}
-
-@media (max-width: 768px) {
-  .meeting-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
-  .header-class, .footer-class {
-    padding: 1rem 1.25rem;
-  }
 }
 
 .login-page-layout {
@@ -242,4 +267,33 @@ section:has(> .header-class) {
 
 .login-submit-btn:hover {
   background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .meeting-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .MeetingCard-class {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
+
+  .MeetingCard-class img {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 160px;
+  }
+
+  .MeetingCard-class h2,
+  .MeetingCard-class p,
+  .card-content {
+    grid-column: 1;
+  }
+
+  .header-class, .footer-class {
+    padding: 1rem 1.25rem;
+  }
 }
