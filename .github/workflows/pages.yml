@@ -21,7 +21,7 @@ jobs:
     defaults:
       run:
         working-directory: Meetly/Frontend/client
-      steps:
+    steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
