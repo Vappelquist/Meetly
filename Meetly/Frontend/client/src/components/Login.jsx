@@ -8,8 +8,6 @@ export default function Login() {
                 <input type="password" placeholder="Password" />
                 <button type="submit" className="login-submit-btn">Login</button>
             </div>
-
         </>
     );
-
 }
