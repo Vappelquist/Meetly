@@ -1,5 +1,6 @@
 ﻿using Meetly.Data;
 using Meetly.DTO;
+using Meetly.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,30 @@ namespace Meetly.Services
                 Username = user.Name,
                 Password = user.PasswordHash
             };    
+        }
+
+        public async Task<CreateUserResponse> CreateAsync(CreateUserRequest request)
+        {
+            var newUser = new user
+            {
+                Name = request.name,
+                PasswordHash = request.password
+            };
+
+            if (await _ctx.User.AnyAsync(u => u.Name == request.name))
+            {
+                return null;
+            }
+
+
+            await _ctx.User.AddAsync(newUser);
+            await _ctx.SaveChangesAsync();
+
+            return new CreateUserResponse
+            {
+                Name = request.name,
+                Password = newUser.PasswordHash
+            };
         }
     }
 }
