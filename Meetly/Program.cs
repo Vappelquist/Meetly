@@ -17,7 +17,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "https://vappelquist.github.io")
+        //policy.WithOrigins("http://localhost:8080")
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -42,3 +43,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+//Test comment

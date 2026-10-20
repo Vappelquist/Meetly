@@ -5,5 +5,6 @@ namespace Meetly.Services
     public interface IUserService
     {
         Task<LoginRequest> LoginAsync(string username, string password);
+        Task<CreateUserResponse> CreateAsync(CreateUserRequest userRequest);
     }
 }
