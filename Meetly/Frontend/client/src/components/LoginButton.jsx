@@ -5,13 +5,18 @@ export default function LoginButton({ setLoginStatus }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        setLoginStatus(true);
-        localStorage.setItem("loggedInToken", "True");
         navigate("/");
     };
 
     return (
-        <button className="LoginButton-class" onClick={handleClick}>
+         <button 
+            type="button"
+            className="LoginButton-class" 
+            onClick={() => {
+                console.log("Navigating to /login...");
+                navigate("/login");
+            }}
+        >
             LOGIN
         </button>
     );

@@ -1,12 +1,10 @@
 import LoginButton from "../components/LoginButton"
 import { useNavigate } from "react-router-dom";
 import ToAccountButton from "./ToAccountButton";
-import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header(){
-    const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return !!localStorage.getItem("loggedInToken");
-    });
+    const { isLoggedIn } = useAuth(); 
 
     const navigate = useNavigate();
 
@@ -18,11 +16,7 @@ export default function Header(){
                 </h1>
             </button>
             <div>
-                {isLoggedIn ? (
-                    <ToAccountButton />
-                ) : (
-                    <LoginButton setLoginStatus={setIsLoggedIn} />
-                )}
+                {isLoggedIn ? <ToAccountButton /> : <LoginButton />}
             </div>
         </header>
     );
