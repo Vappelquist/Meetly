@@ -1,12 +1,8 @@
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginButton({ setLoginStatus }) {
+export default function LoginButton() {
     const navigate = useNavigate();
-
-    const handleClick = () => {
-        navigate("/");
-    };
 
     return (
          <button 
