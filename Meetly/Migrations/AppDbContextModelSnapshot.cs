@@ -44,6 +44,9 @@ namespace Meetly.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("maxCapacity")
+                        .HasColumnType("int");
+
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -74,6 +77,20 @@ namespace Meetly.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "stig",
+                            PasswordHash = "password123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "bob",
+                            PasswordHash = "password123"
+                        });
                 });
 
             modelBuilder.Entity("Meetuser", b =>
