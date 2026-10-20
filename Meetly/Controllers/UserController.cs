@@ -19,7 +19,7 @@ namespace Meetly.Controllers
             _userservice = userservice;
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> GetLogin(LoginRequest request) 
         {
             var user = await _userservice.LoginAsync(request.Username, request.Password);
