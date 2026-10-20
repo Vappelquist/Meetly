@@ -1,12 +1,22 @@
-import "../App.css"
+import "../App.css";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginButton() {
-
+export default function LoginButton({ setLoginStatus }) {
     const navigate = useNavigate();
 
+    const handleClick = () => {
+        navigate("/");
+    };
+
     return (
-        <button className="LoginButton-class" onClick={() => navigate("/login")}>
+         <button 
+            type="button"
+            className="LoginButton-class" 
+            onClick={() => {
+                console.log("Navigating to /login...");
+                navigate("/login");
+            }}
+        >
             LOGIN
         </button>
     );

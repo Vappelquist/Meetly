@@ -4,3 +4,6 @@ GET {{Meetly_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+### List meetups
+GET {{Meetly_HostAddress}}/api/meetups
+Accept: application/json

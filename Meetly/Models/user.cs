@@ -1,10 +1,14 @@
-﻿namespace Meetly.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Meetly.Models
 {
     public class user
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        [Required]
         public string PasswordHash { get; set; }
+
 
 
         //nav
