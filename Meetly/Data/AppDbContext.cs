@@ -23,5 +23,20 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Meet>()
             .HasMany(m => m.Attendes)
             .WithMany(u => u.AttendingMeets);
+
+        modelBuilder.Entity<user>().HasData(
+            new user
+            {
+                Id = 1,
+                Name = "stig",
+                PasswordHash = "password123"
+            },
+            new user
+            {
+                Id = 2,
+                Name = "bob",
+                PasswordHash = "password123"
+            }
+        );
     }
 }
