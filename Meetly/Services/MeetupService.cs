@@ -27,7 +27,9 @@ using Microsoft.EntityFrameworkCore;
                     Description = meet.description,
                     Place = meet.Place,
                     Time = meet.Time,
-                    MaxCapacity = meet.maxCapacity
+                    MaxCapacity = meet.maxCapacity,
+                    HostId = meet.HostId,
+                    Host = meet.Host.Name
                 })
                 .ToListAsync(cancellationToken);
         }
@@ -45,7 +47,9 @@ using Microsoft.EntityFrameworkCore;
                     Description = meet.description,
                     Place = meet.Place,
                     Time = meet.Time,
-                    MaxCapacity = meet.maxCapacity
+                    MaxCapacity = meet.maxCapacity,
+                    HostId = meet.HostId,
+                    Host = meet.Host.Name
                 })
                 .SingleOrDefaultAsync(cancellationToken);
         }

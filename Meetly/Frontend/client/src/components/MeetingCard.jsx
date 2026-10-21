@@ -1,17 +1,29 @@
-export default function MeetingCard(){
-    return (
+
+
+// export default function MeetingCard(){
+//     return (
+//         <section className="MeetingCard-class">
+//             <h2>
+//                 TITEL
+//             </h2>
+//             <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com"></img>
+//         </section>
+//     );
+// }
+
+export default function MeetingCard({title, description, host, date, imageUrl}){
+    return(
         <section className="MeetingCard-class">
             <div className="MeetingCardLeft">
-                <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com"></img>
-                <p>Date/Time</p>
+                <img src={imageUrl} alt="{title}" />
+                <p>{date}</p>
             </div>
             <div className="MeetingCardRight">
-                <h2>TITEL</h2>
-                <p>Location</p>
-                <p>Description</p>
+                <h2>{title}</h2>
+                <p>{description}</p>
             </div>
             <div className="MeetingCardBottomRight">
-                <p>Arranger</p>
+                <p>{host}</p>
             </div>
         </section>
     );
