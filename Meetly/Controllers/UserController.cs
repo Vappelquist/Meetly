@@ -11,7 +11,6 @@ namespace Meetly.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly AppDbContext _ctx;
         private readonly IUserService _userservice;
 
         public UserController(IUserService userservice)

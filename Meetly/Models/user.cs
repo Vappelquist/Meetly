@@ -5,8 +5,9 @@ namespace Meetly.Models
     public class user
     {
         public int Id { get; set; }
+        [Required, MaxLength(50)]
         public string Name { get; set; }
-        [Required]
+        [Required, MaxLength(25)]
         public string PasswordHash { get; set; }
 
 
