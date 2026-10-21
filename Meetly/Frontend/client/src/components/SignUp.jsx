@@ -10,6 +10,7 @@ export default function SignUp (){
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
+const { login } = useAuth();
 
     const handleLogin = async (e) => {
         if (e) e.preventDefault();
@@ -22,7 +23,7 @@ export default function SignUp (){
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    username: username,
+                    name: username,
                     password: password,
                 }),
             });
@@ -62,7 +63,7 @@ export default function SignUp (){
             />
 
             <button type="button" className="login-submit-btn" onClick={handleLogin}>
-                Login
+                Signup
             </button>
         </div>
     );
