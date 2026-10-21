@@ -65,6 +65,11 @@ export default function Login() {
             <button type="button" className="login-submit-btn" onClick={handleLogin}>
                 Login
             </button>
+            <button className="HeaderTitle-class" onClick={() => navigate("/SignUp")}>
+                <h4>
+                    Signup by clicking here
+                </h4>
+            </button>
         </div>
     );
 }
