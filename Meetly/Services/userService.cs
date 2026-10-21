@@ -28,10 +28,10 @@ namespace Meetly.Services
             }
 
             return new LoginRequest
-            {
-                Username = user.Name,
-                Password = user.PasswordHash
-            };    
+            (
+                user.Name,
+                user.PasswordHash
+            );    
         }
 
         public async Task<CreateUserResponse> CreateAsync(CreateUserRequest request)
@@ -52,10 +52,10 @@ namespace Meetly.Services
             await _ctx.SaveChangesAsync();
 
             return new CreateUserResponse
-            {
-                Name = request.name,
-                Password = newUser.PasswordHash
-            };
+            (
+                request.name,
+                newUser.PasswordHash
+            );
         }
     }
 }
