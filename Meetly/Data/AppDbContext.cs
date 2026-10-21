@@ -24,49 +24,49 @@ public class AppDbContext : DbContext
             .HasMany(m => m.Attendes)
             .WithMany(u => u.AttendingMeets)
             .UsingEntity(j => j.HasData(
-                new { AttendesId = 2, AttendingMeetsId = 1 },
-                new { AttendesId = 3, AttendingMeetsId = 1 },
-                new { AttendesId = 4, AttendingMeetsId = 2 },
-                new { AttendesId = 5, AttendingMeetsId = 2 },
-                new { AttendesId = 6, AttendingMeetsId = 3 },
-                new { AttendesId = 1, AttendingMeetsId = 3 }
+                new { AttendesId = 5, AttendingMeetsId = 1 },
+                new { AttendesId = 6, AttendingMeetsId = 1 },
+                new { AttendesId = 7, AttendingMeetsId = 2 },
+                new { AttendesId = 8, AttendingMeetsId = 2 },
+                new { AttendesId = 9, AttendingMeetsId = 3 },
+                new { AttendesId = 4, AttendingMeetsId = 3 }
             ));
 
         modelBuilder.Entity<user>().HasData(
             new user
             {
-                Id = 1,
-                Name = "stig",
-                PasswordHash = "password123"
-            },
-            new user
-            {
-                Id = 2,
-                Name = "bob",
-                PasswordHash = "password123"
-            },
-            new user
-            {
-                Id = 3,
-                Name = "alice",
-                PasswordHash = "password123"
-            },
-            new user
-            {
                 Id = 4,
-                Name = "charlie",
+                Name = "frank",
                 PasswordHash = "password123"
             },
             new user
             {
                 Id = 5,
-                Name = "dave",
+                Name = "grace",
                 PasswordHash = "password123"
             },
             new user
             {
                 Id = 6,
-                Name = "eve",
+                Name = "heidi",
+                PasswordHash = "password123"
+            },
+            new user
+            {
+                Id = 7,
+                Name = "ivan",
+                PasswordHash = "password123"
+            },
+            new user
+            {
+                Id = 8,
+                Name = "judy",
+                PasswordHash = "password123"
+            },
+            new user
+            {
+                Id = 9,
+                Name = "karl",
                 PasswordHash = "password123"
             }
         );
@@ -79,7 +79,7 @@ public class AppDbContext : DbContext
                 description = "Weekly team meeting",
                 Place = "Conference Room",
                 Time = new DateTime(2026, 11, 1, 10, 0, 0, DateTimeKind.Utc),
-                HostId = 1,
+                HostId = 4,
                 maxCapacity = 10
             },
             new Meet
@@ -89,7 +89,7 @@ public class AppDbContext : DbContext
                 description = "Kickoff meeting for the new project",
                 Place = "Zoom",
                 Time = new DateTime(2026, 11, 2, 14, 0, 0, DateTimeKind.Utc),
-                HostId = 2,
+                HostId = 5,
                 maxCapacity = 20
             },
             new Meet
@@ -99,7 +99,7 @@ public class AppDbContext : DbContext
                 description = "Hands-on workshop on new technology",
                 Place = "Lab 1",
                 Time = new DateTime(2026, 11, 3, 9, 30, 0, DateTimeKind.Utc),
-                HostId = 3,
+                HostId = 6,
                 maxCapacity = 3
             }
         );
