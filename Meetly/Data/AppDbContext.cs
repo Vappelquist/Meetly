@@ -103,7 +103,9 @@ public class AppDbContext : DbContext
         new { AttendesId = 2, AttendingMeetsId = 1 },
         new { AttendesId = 3, AttendingMeetsId = 1 },
         new { AttendesId = 4, AttendingMeetsId = 2 },
-        new { AttendesId = 5, AttendingMeetsId = 2 }
+        new { AttendesId = 5, AttendingMeetsId = 2 },
+        new { AttendesId = 6, AttendingMeetsId = 3 },
+        new { AttendesId = 1, AttendingMeetsId = 3 }
 
     ));
     }
