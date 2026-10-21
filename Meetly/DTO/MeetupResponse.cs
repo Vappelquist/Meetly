@@ -8,5 +8,7 @@
         public string Place { get; set; } = string.Empty;
         public DateTime Time { get; set; }
         public int MaxCapacity { get; set; }
+        public int HostId { get; set; }
+        public string Host { get; set; } = string.Empty;
     }
 }

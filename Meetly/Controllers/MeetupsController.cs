@@ -41,4 +41,27 @@ public class MeetupsController : ControllerBase
 
         return Ok(meetup);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<MeetupResponse>> CreateMeetup(
+        [FromBody] CreateMeetupRequest request,
+        CancellationToken cancellationToken)
+    {
+        var meetup = await _meetupService.CreateMeetupAsync(
+            request,
+            cancellationToken);
+
+        if (meetup is null)
+        {
+            return BadRequest(new
+            {
+                message = "The selected host does not exist!"
+            });
+        }
+
+        return CreatedAtAction(
+            nameof(GetMeetupById),
+            new { id = meetup.Id },
+            meetup);
+    }
 }
