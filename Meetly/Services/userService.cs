@@ -46,7 +46,18 @@ namespace Meetly.Services
             {
                 return null;
             }
-
+            if(string.IsNullOrEmpty(request.name.Trim()) || string.IsNullOrEmpty(request.password.Trim()))
+            {
+                return null;
+            }
+            else if(request.password.Length < 5 || request.password.Length > 20)
+            {
+                return null;
+            }
+            else if(request.password.Any(char.IsWhiteSpace) || request.name.Any(char.IsWhiteSpace))
+            {
+                return null;
+            }
 
             await _ctx.User.AddAsync(newUser);
             await _ctx.SaveChangesAsync();
