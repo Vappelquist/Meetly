@@ -1,6 +1,7 @@
 ﻿using Meetly.Data;
 using Meetly.DTO;
 using Meetly.Models;
+using Meetly.Utils;
 using Microsoft.EntityFrameworkCore;
 
     namespace Meetly.Services
@@ -14,10 +15,10 @@ using Microsoft.EntityFrameworkCore;
             _db = db;
         }
 
-        public async Task<List<MeetupResponse>> GetMeetupsAsync(
+        public async Task<ServiceResult<List<MeetupResponse>>> GetMeetupsAsync(
             CancellationToken cancellationToken)
         {
-            return await _db.Set<Meet>()
+            return ServiceResult<List<MeetupResponse>>.Ok(await _db.Set<Meet>()
                 .OrderBy(meet => meet.Time)
                 .ThenBy(meet => meet.Id)
                 .Select(meet => new MeetupResponse
@@ -31,7 +32,7 @@ using Microsoft.EntityFrameworkCore;
                     HostId = meet.HostId,
                     Host = meet.Host.Name
                 })
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken));
         }
 
         public async Task<MeetupResponse?> GetMeetupByIdAsync(
@@ -54,7 +55,7 @@ using Microsoft.EntityFrameworkCore;
                 .SingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<MeetupResponse?> CreateMeetupAsync(
+        public async Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(
             CreateMeetupRequest request,
             CancellationToken cancellationToken)
         {
@@ -72,7 +73,7 @@ using Microsoft.EntityFrameworkCore;
 
             if (host is null)
             {
-                return null;
+                return ServiceResult<MeetupResponse>.Fail("Couldnt find host");
             }
 
             var meetup = new Meet
@@ -90,7 +91,7 @@ using Microsoft.EntityFrameworkCore;
 
             await _db.SaveChangesAsync(cancellationToken);
 
-            return new MeetupResponse
+            return ServiceResult<MeetupResponse?>.Ok(new MeetupResponse
             {
                 Id = meetup.Id,
                 Title = meetup.title,
@@ -98,7 +99,7 @@ using Microsoft.EntityFrameworkCore;
                 Place = meetup.Place,
                 Time = meetup.Time,
                 MaxCapacity = meetup.maxCapacity
-            };
+            });
         }
     }
 }
