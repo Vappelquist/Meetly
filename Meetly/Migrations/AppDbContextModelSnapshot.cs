@@ -87,6 +87,36 @@ namespace Meetly.Migrations
                             description = "Hands-on workshop on new technology",
                             maxCapacity = 3,
                             title = "Workshop"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            HostId = 4,
+                            Place = "Main Auditorium",
+                            Time = new DateTime(2026, 8, 15, 9, 0, 0, 0, DateTimeKind.Utc),
+                            description = "48-hour prototype challenge and pizza.",
+                            maxCapacity = 40,
+                            title = "Summer Hackathon 2026"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            HostId = 5,
+                            Place = "Lab 2",
+                            Time = new DateTime(2026, 9, 20, 13, 0, 0, 0, DateTimeKind.Utc),
+                            description = "Deep dive into React frontend and ASP.NET Core Azure hosting.",
+                            maxCapacity = 15,
+                            title = "React & Azure Workshop"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            HostId = 6,
+                            Place = "Room 204",
+                            Time = new DateTime(2026, 10, 5, 15, 0, 0, 0, DateTimeKind.Utc),
+                            description = "Discussing the UI/UX layout and prototype screens.",
+                            maxCapacity = 8,
+                            title = "Initial Design Sync"
                         });
                 });
 
@@ -193,6 +223,36 @@ namespace Meetly.Migrations
                         {
                             AttendesId = 4,
                             AttendingMeetsId = 3
+                        },
+                        new
+                        {
+                            AttendesId = 4,
+                            AttendingMeetsId = 5
+                        },
+                        new
+                        {
+                            AttendesId = 4,
+                            AttendingMeetsId = 6
+                        },
+                        new
+                        {
+                            AttendesId = 5,
+                            AttendingMeetsId = 4
+                        },
+                        new
+                        {
+                            AttendesId = 7,
+                            AttendingMeetsId = 4
+                        },
+                        new
+                        {
+                            AttendesId = 8,
+                            AttendingMeetsId = 5
+                        },
+                        new
+                        {
+                            AttendesId = 9,
+                            AttendingMeetsId = 6
                         });
                 });
 
