@@ -11,7 +11,9 @@ namespace Meetly.Models
         public string description { get; set; }
         [Required, MaxLength(100)]
         public string Place { get;set; }
+        [Required]
         public DateTime Time { get; set; }
+        [Required]
         public int HostId { get; set; }
         [Required]
         public user Host { get; set; } = null;
