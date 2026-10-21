@@ -54,7 +54,7 @@ public class AppDbContext : DbContext
                 Id = 5,
                 Name = "dave",
                 PasswordHash = "password123"
-            }
+            },
             new user
             {
                 Id = 6,
