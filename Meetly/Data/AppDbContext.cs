@@ -22,7 +22,15 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Meet>()
             .HasMany(m => m.Attendes)
-            .WithMany(u => u.AttendingMeets);
+            .WithMany(u => u.AttendingMeets)
+            .UsingEntity(j => j.HasData(
+                new { AttendesId = 2, AttendingMeetsId = 1 },
+                new { AttendesId = 3, AttendingMeetsId = 1 },
+                new { AttendesId = 4, AttendingMeetsId = 2 },
+                new { AttendesId = 5, AttendingMeetsId = 2 },
+                new { AttendesId = 6, AttendingMeetsId = 3 },
+                new { AttendesId = 1, AttendingMeetsId = 3 }
+            ));
 
         modelBuilder.Entity<user>().HasData(
             new user
@@ -70,7 +78,7 @@ public class AppDbContext : DbContext
                 title = "Team Meeting",
                 description = "Weekly team meeting",
                 Place = "Conference Room",
-                Time = DateTime.Now,
+                Time = new DateTime(2026, 11, 1, 10, 0, 0, DateTimeKind.Utc),
                 HostId = 1,
                 maxCapacity = 10
             },
@@ -80,7 +88,7 @@ public class AppDbContext : DbContext
                 title = "Project Kickoff",
                 description = "Kickoff meeting for the new project",
                 Place = "Zoom",
-                Time = DateTime.Now.AddDays(1),
+                Time = new DateTime(2026, 11, 2, 14, 0, 0, DateTimeKind.Utc),
                 HostId = 2,
                 maxCapacity = 20
             },
@@ -90,23 +98,10 @@ public class AppDbContext : DbContext
                 title = "Workshop",
                 description = "Hands-on workshop on new technology",
                 Place = "Lab 1",
-                Time = DateTime.Now.AddDays(2),
+                Time = new DateTime(2026, 11, 3, 9, 30, 0, DateTimeKind.Utc),
                 HostId = 3,
                 maxCapacity = 3
             }
         );
-
-        modelBuilder.Entity<Meet>()
-    .HasMany(m => m.Attendes)
-    .WithMany(u => u.AttendingMeets)
-    .UsingEntity(j => j.HasData(
-        new { AttendesId = 2, AttendingMeetsId = 1 },
-        new { AttendesId = 3, AttendingMeetsId = 1 },
-        new { AttendesId = 4, AttendingMeetsId = 2 },
-        new { AttendesId = 5, AttendingMeetsId = 2 },
-        new { AttendesId = 6, AttendingMeetsId = 3 },
-        new { AttendesId = 1, AttendingMeetsId = 3 }
-
-    ));
     }
 }

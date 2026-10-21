@@ -56,6 +56,38 @@ namespace Meetly.Migrations
                     b.HasIndex("HostId");
 
                     b.ToTable("Meet");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HostId = 1,
+                            Place = "Conference Room",
+                            Time = new DateTime(2026, 10, 21, 9, 48, 38, 600, DateTimeKind.Local).AddTicks(3959),
+                            description = "Weekly team meeting",
+                            maxCapacity = 10,
+                            title = "Team Meeting"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            HostId = 2,
+                            Place = "Zoom",
+                            Time = new DateTime(2026, 10, 22, 9, 48, 38, 604, DateTimeKind.Local).AddTicks(7945),
+                            description = "Kickoff meeting for the new project",
+                            maxCapacity = 20,
+                            title = "Project Kickoff"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            HostId = 3,
+                            Place = "Lab 1",
+                            Time = new DateTime(2026, 10, 23, 9, 48, 38, 604, DateTimeKind.Local).AddTicks(8040),
+                            description = "Hands-on workshop on new technology",
+                            maxCapacity = 3,
+                            title = "Workshop"
+                        });
                 });
 
             modelBuilder.Entity("Meetly.Models.user", b =>
@@ -90,6 +122,30 @@ namespace Meetly.Migrations
                             Id = 2,
                             Name = "bob",
                             PasswordHash = "password123"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "alice",
+                            PasswordHash = "password123"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "charlie",
+                            PasswordHash = "password123"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "dave",
+                            PasswordHash = "password123"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "eve",
+                            PasswordHash = "password123"
                         });
                 });
 
@@ -106,6 +162,38 @@ namespace Meetly.Migrations
                     b.HasIndex("AttendingMeetsId");
 
                     b.ToTable("Meetuser");
+
+                    b.HasData(
+                        new
+                        {
+                            AttendesId = 2,
+                            AttendingMeetsId = 1
+                        },
+                        new
+                        {
+                            AttendesId = 3,
+                            AttendingMeetsId = 1
+                        },
+                        new
+                        {
+                            AttendesId = 4,
+                            AttendingMeetsId = 2
+                        },
+                        new
+                        {
+                            AttendesId = 5,
+                            AttendingMeetsId = 2
+                        },
+                        new
+                        {
+                            AttendesId = 6,
+                            AttendingMeetsId = 3
+                        },
+                        new
+                        {
+                            AttendesId = 1,
+                            AttendingMeetsId = 3
+                        });
                 });
 
             modelBuilder.Entity("Meetly.Models.Meet", b =>
