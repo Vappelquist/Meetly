@@ -52,7 +52,7 @@ section:has(> .header-class) {
   color: inherit;
   font: inherit;
   text-align: left;
-} */
+} 
 
 .HeaderTitle-class h1 {
   margin: 0;
