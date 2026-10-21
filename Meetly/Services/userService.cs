@@ -1,7 +1,7 @@
 ﻿using Meetly.Data;
 using Meetly.DTO;
 using Meetly.Models;
-using Microsoft.AspNetCore.Mvc;
+using Meetly.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Meetly.Services
@@ -15,26 +15,26 @@ namespace Meetly.Services
             _ctx = ctx;
         }
 
-        public async Task<LoginRequest?> LoginAsync(string username, string password)
+        public async Task<ServiceResult<LoginRequest?>> LoginAsync(string username, string password)
         {
             var user = await _ctx.User.FirstOrDefaultAsync(u => u.Name == username);
             if (user == null)
             {
-                return null;
+                return ServiceResult<LoginRequest?>.Fail("User not found.");
             }
             else if(user.PasswordHash != password)
             {
-                return null;
+                return ServiceResult<LoginRequest?>.Fail("Invalid password.");
             }
 
-            return new LoginRequest
+            return ServiceResult<LoginRequest?>.Ok(new LoginRequest
             (
                 user.Name,
                 user.PasswordHash
-            );    
+            ));    
         }
 
-        public async Task<CreateUserResponse> CreateAsync(CreateUserRequest request)
+        public async Task<ServiceResult<CreateUserResponse>> CreateAsync(CreateUserRequest request)
         {
             var newUser = new user
             {
@@ -44,29 +44,29 @@ namespace Meetly.Services
 
             if (await _ctx.User.AnyAsync(u => u.Name == request.name))
             {
-                return null;
+                return ServiceResult<CreateUserResponse>.Fail("User already exists.");
             }
             if(string.IsNullOrEmpty(request.name.Trim()) || string.IsNullOrEmpty(request.password.Trim()))
             {
-                return null;
+                return ServiceResult<CreateUserResponse>.Fail("Name and password cannot be empty.");
             }
             else if(request.password.Length < 5 || request.password.Length > 20)
             {
-                return null;
+                return ServiceResult<CreateUserResponse>.Fail("Password must be between 5 and 20 characters long.");
             }
             else if(request.password.Any(char.IsWhiteSpace) || request.name.Any(char.IsWhiteSpace))
             {
-                return null;
+                return ServiceResult<CreateUserResponse>.Fail("Name and password cannot contain whitespace.");
             }
 
             await _ctx.User.AddAsync(newUser);
             await _ctx.SaveChangesAsync();
 
-            return new CreateUserResponse
+            return ServiceResult<CreateUserResponse>.Ok(new CreateUserResponse
             (
                 request.name,
                 newUser.PasswordHash
-            );
+            ));
         }
     }
 }
