@@ -9,11 +9,11 @@ export async function getHealth() {
 export async function getMeets(){
     const res = await fetch (`${API_URL}/api/meetups`)
     if (!res.ok) throw new Error("Request failed");
-    return res.text();
+    return res.json();
 }
 
 export async function apiFetchCall(apiCall){
     const res = await fetch(`${API_URL}/api/${apiCall}`)
     if (!res.ok) throw new Error("Request failed");
-    return res.text();  
+    return res.json();  
 }
