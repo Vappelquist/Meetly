@@ -50,9 +50,9 @@ namespace Meetly.Services
             {
                 return ServiceResult<CreateUserResponse>.Fail("Name and password cannot be empty.");
             }
-            else if(request.password.Length < 5 || request.password.Length > 20)
+            else if(request.password.Length < 5)
             {
-                return ServiceResult<CreateUserResponse>.Fail("Password must be between 5 and 20 characters long.");
+                return ServiceResult<CreateUserResponse>.Fail("Password must be at least 5 characters long.");
             }
             else if(request.password.Any(char.IsWhiteSpace) || request.name.Any(char.IsWhiteSpace))
             {

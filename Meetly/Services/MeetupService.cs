@@ -53,5 +53,52 @@ using Microsoft.EntityFrameworkCore;
                 })
                 .SingleOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<MeetupResponse?> CreateMeetupAsync(
+            CreateMeetupRequest request,
+            CancellationToken cancellationToken)
+        {
+            if (request.Time is null)
+            {
+                throw new ArgumentException(
+                    "A meetup time is required.",
+                    nameof(request));
+            }
+
+            var host = await _db.Set<user>().
+                SingleOrDefaultAsync(
+                user => user.Id == request.HostId,
+                cancellationToken);
+
+            if (host is null)
+            {
+                return null;
+            }
+
+            var meetup = new Meet
+            {
+                title = request.Title.Trim(),
+                description = request.Description.Trim(),
+                Place = request.Place.Trim(),
+                Time = request.Time.Value,
+                maxCapacity = request.MaxCapacity,
+                HostId = host.Id,
+                Attendes = new List<user>()
+            };
+
+            _db.Set<Meet>().Add(meetup);
+
+            await _db.SaveChangesAsync(cancellationToken);
+
+            return new MeetupResponse
+            {
+                Id = meetup.Id,
+                Title = meetup.title,
+                Description = meetup.description,
+                Place = meetup.Place,
+                Time = meetup.Time,
+                MaxCapacity = meetup.maxCapacity
+            };
+        }
     }
 }
