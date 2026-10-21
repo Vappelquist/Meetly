@@ -23,7 +23,7 @@ namespace Meetly.Controllers
         public async Task<IActionResult> GetLogin(LoginRequest request) 
         {
             var user = await _userservice.LoginAsync(request.Username, request.Password);
-            if(user == null)
+            if(!user.Success)
             {
                 return BadRequest("Invalid username/password Try Again");
             }
@@ -35,7 +35,7 @@ namespace Meetly.Controllers
         public async Task<IActionResult> CreateUser(CreateUserRequest request)
         {
             var result = await _userservice.CreateAsync(request);
-            if (result == null)
+            if (!result.Success)
             {
                 return BadRequest("Couldnt Create Account");
             }
