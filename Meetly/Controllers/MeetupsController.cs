@@ -22,7 +22,7 @@ public class MeetupsController : ControllerBase
         var meetups = await _meetupService.GetMeetupsAsync(
             cancellationToken);
 
-        return Ok(meetups);
+        return Ok(meetups.Data);
     }
 
     [HttpGet("{id:int}")]
