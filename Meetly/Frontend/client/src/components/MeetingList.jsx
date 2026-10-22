@@ -23,6 +23,7 @@ export default function MeetingList(){
         {events.map((e) =>(
             <MeetingCard
             key={e.id}
+            id={m.id}
             title={e.title}
             description={e.description}
             host={e.host}
