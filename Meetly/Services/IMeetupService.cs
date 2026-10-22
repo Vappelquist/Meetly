@@ -1,18 +1,19 @@
 ﻿using Meetly.DTO;
+using Meetly.Utils;
 
 namespace Meetly.Services
 {
     public interface IMeetupService
     {
 
-        Task<List<MeetupResponse>> GetMeetupsAsync(
+        Task<ServiceResult<List<MeetupResponse>>> GetMeetupsAsync(
             CancellationToken cancellationToken);
 
         Task<MeetupResponse?> GetMeetupByIdAsync(
             int id,
             CancellationToken cancellationToken);
 
-        Task<MeetupResponse?> CreateMeetupAsync(
+        Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(
             CreateMeetupRequest request,
             CancellationToken cancellationToken);
 

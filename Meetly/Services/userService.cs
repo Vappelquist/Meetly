@@ -68,5 +68,7 @@ namespace Meetly.Services
                 newUser.PasswordHash
             ));
         }
+
+        
     }
 }
