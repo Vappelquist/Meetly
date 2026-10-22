@@ -16,4 +16,9 @@
              string Username,
              string Password
         );
+
+        public record GetUserByIdResponse(
+            int Id,
+            string Name
+        );
 }
