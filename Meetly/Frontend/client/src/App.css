@@ -427,6 +427,84 @@ section:has(> .header-class) {
   color: #666;
 }
 
+.header-class > .HeaderTitle-class {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.header-account {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.header-search {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+}
+
+    .header-search input {
+        flex: 1;
+        min-width: 0;
+        padding: 10px 12px;
+        border: 1px solid var(--muted-teal);
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+
+        .header-search input:focus {
+            outline: 2px solid var(--turquoise);
+            outline-offset: 2px;
+        }
+
+    .header-search button {
+        padding: 10px 16px;
+        background-color: var(--orange);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .header-search button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+@media (max-width: 768px) {
+    .header-class {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .header-account {
+        grid-column: 2;
+    }
+
+    .header-search {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        max-width: 440px;
+        justify-self: center;
+    }
+
+
+}
+
+.no-results-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 1rem;
+    color:var(--orange);
+    font-weight:bold;
+    font-size: 1.1rem;
+}
+
 .MeetingCard-link {
     color: inherit;
     text-decoration: none;
