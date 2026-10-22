@@ -22,7 +22,7 @@ namespace Meetly.Services
             {
                 return ServiceResult<LoginResponse?>.Fail("User not found.");
             }
-            else if(user.PasswordHash != password)
+            else if (user.PasswordHash != password)
             {
                 return ServiceResult<LoginResponse?>.Fail("Invalid password.");
             }
@@ -31,7 +31,7 @@ namespace Meetly.Services
             (
                 user.Name,
                 user.Id
-            ));    
+            ));
         }
 
         public async Task<ServiceResult<CreateUserResponse>> CreateAsync(CreateUserRequest request)
@@ -46,15 +46,15 @@ namespace Meetly.Services
             {
                 return ServiceResult<CreateUserResponse>.Fail("User already exists.");
             }
-            if(string.IsNullOrEmpty(request.name.Trim()) || string.IsNullOrEmpty(request.password.Trim()))
+            if (string.IsNullOrEmpty(request.name.Trim()) || string.IsNullOrEmpty(request.password.Trim()))
             {
                 return ServiceResult<CreateUserResponse>.Fail("Name and password cannot be empty.");
             }
-            else if(request.password.Length < 5)
+            else if (request.password.Length < 5)
             {
                 return ServiceResult<CreateUserResponse>.Fail("Password must be at least 5 characters long.");
             }
-            else if(request.password.Any(char.IsWhiteSpace) || request.name.Any(char.IsWhiteSpace))
+            else if (request.password.Any(char.IsWhiteSpace) || request.name.Any(char.IsWhiteSpace))
             {
                 return ServiceResult<CreateUserResponse>.Fail("Name and password cannot contain whitespace.");
             }
@@ -71,14 +71,25 @@ namespace Meetly.Services
 
         public async Task<ServiceResult<GetUserByIdResponse?>> GetUserByIdAsync(int userId)
         {
-            var user = await _ctx.User.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _ctx.User.Include(u => u.AttendingMeets).FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
             {
                 return ServiceResult<GetUserByIdResponse?>.Fail("User not found.");
             }
+
+            var meets = user.AttendingMeets.Select(m => new UserMeets(
+                m.Id,
+                m.title,
+                m.description,
+                m.Place,
+                m.Time,
+                m.maxCapacity
+            )).ToList();
+
             return ServiceResult<GetUserByIdResponse?>.Ok(new GetUserByIdResponse(
                 user.Id,
-                user.Name
+                user.Name,
+                meets
             ));
         }
     }
