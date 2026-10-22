@@ -69,6 +69,17 @@ namespace Meetly.Services
             ));
         }
 
-        
+        public async Task<ServiceResult<GetUserByIdResponse?>> GetUserByIdAsync(int userId)
+        {
+            var user = await _ctx.User.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return ServiceResult<GetUserByIdResponse?>.Fail("User not found.");
+            }
+            return ServiceResult<GetUserByIdResponse?>.Ok(new GetUserByIdResponse(
+                user.Id,
+                user.Name
+            ));
+        }
     }
 }

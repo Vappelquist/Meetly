@@ -7,5 +7,6 @@ namespace Meetly.Services
     {
         Task<ServiceResult<LoginRequest?>> LoginAsync(string username, string password);
         Task<ServiceResult<CreateUserResponse>> CreateAsync(CreateUserRequest userRequest);
+        Task<ServiceResult<GetUserByIdResponse?>> GetUserByIdAsync(int id);
     }
 }

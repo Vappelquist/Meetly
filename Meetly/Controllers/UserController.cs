@@ -42,5 +42,17 @@ namespace Meetly.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}", Name = "GetUserById")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var result = await _userservice.GetUserByIdAsync(id);
+            if (!result.Success)
+            {
+                return BadRequest("User not found");
+            }
+
+            return Ok(result);
+        }
+
     }
 }
