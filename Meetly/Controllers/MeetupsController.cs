@@ -87,4 +87,15 @@ public class MeetupsController : ControllerBase
         }
         return Ok("Successfully registered user for the meetup.");
     }
+
+    [HttpDelete("Delete/{Id}")]
+    public async Task<ActionResult> DeleteMeetup(int Id)
+    {
+        var result = await _meetupService.DeleteMeetupAsync(Id);
+        if (!result.Success)
+        {
+            return BadRequest("Couldnt delete the meetup.");
+        }
+        return Ok("Successfully deleted the meetup.");
+    }
 }
