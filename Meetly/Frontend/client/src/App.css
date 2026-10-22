@@ -504,6 +504,7 @@ section:has(> .header-class) {
     color:var(--orange);
     font-weight:bold;
     font-size: 1.1rem;
+}
 .MeetingCard-link {
     color: inherit;
     text-decoration: none;
