@@ -62,7 +62,7 @@ public class MeetupsController : ControllerBase
         return CreatedAtAction(
             nameof(GetMeetupById),
             new { id = meetup.Data.Id },
-            meetup);
+            meetup.Data);
     }
 
     [HttpGet("search")]
