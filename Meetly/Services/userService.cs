@@ -15,22 +15,22 @@ namespace Meetly.Services
             _ctx = ctx;
         }
 
-        public async Task<ServiceResult<LoginRequest?>> LoginAsync(string username, string password)
+        public async Task<ServiceResult<LoginResponse?>> LoginAsync(string username, string password)
         {
             var user = await _ctx.User.FirstOrDefaultAsync(u => u.Name == username);
             if (user == null)
             {
-                return ServiceResult<LoginRequest?>.Fail("User not found.");
+                return ServiceResult<LoginResponse?>.Fail("User not found.");
             }
             else if(user.PasswordHash != password)
             {
-                return ServiceResult<LoginRequest?>.Fail("Invalid password.");
+                return ServiceResult<LoginResponse?>.Fail("Invalid password.");
             }
 
-            return ServiceResult<LoginRequest?>.Ok(new LoginRequest
+            return ServiceResult<LoginResponse?>.Ok(new LoginResponse
             (
                 user.Name,
-                user.PasswordHash
+                user.Id
             ));    
         }
 
