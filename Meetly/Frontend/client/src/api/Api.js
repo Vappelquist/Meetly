@@ -17,3 +17,19 @@ export async function apiFetchCall(apiCall){
     if (!res.ok) throw new Error("Request failed");
     return res.json();  
 }
+
+export async function getMeetById(id, signal) {
+    const res = await fetch(`${API_URL}/api/meetups/${id}`, { signal });
+    if (!res.ok) throw new Error("Request failed");
+    return res.json();
+}
+
+export async function createMeetup(data) {
+    const res = await fetch(`${API_URL}/api/meetups`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Request failed");
+    return res.json();
+}

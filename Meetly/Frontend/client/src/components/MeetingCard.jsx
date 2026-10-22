@@ -1,18 +1,8 @@
+import { Link } from "react-router-dom";
 
-
-// export default function MeetingCard(){
-//     return (
-//         <section className="MeetingCard-class">
-//             <h2>
-//                 TITEL
-//             </h2>
-//             <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com"></img>
-//         </section>
-//     );
-// }
-
-export default function MeetingCard({title, description, host, date, imageUrl}){
+export default function MeetingCard({id, title, description, host, date, imageUrl}){
     return(
+        <Link to={`/meetup/${id}`} className="MeetingCard-link">
         <section className="MeetingCard-class">
             <div className="MeetingCardLeft">
                 <img src={imageUrl} alt="{title}" />
@@ -26,5 +16,6 @@ export default function MeetingCard({title, description, host, date, imageUrl}){
                 <p>{host}</p>
             </div>
         </section>
+        </Link>
     );
 }

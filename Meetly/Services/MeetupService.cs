@@ -4,12 +4,12 @@ using Meetly.Models;
 using Meetly.Utils;
 using Microsoft.EntityFrameworkCore;
 
-    namespace Meetly.Services
+namespace Meetly.Services
 {
     public class MeetupService : IMeetupService
     {
         private readonly AppDbContext _db;
-        
+
         public MeetupService(AppDbContext db)
         {
             _db = db;
@@ -18,21 +18,22 @@ using Microsoft.EntityFrameworkCore;
         public async Task<ServiceResult<List<MeetupResponse>>> GetMeetupsAsync(
             CancellationToken cancellationToken)
         {
-            return ServiceResult<List<MeetupResponse>>.Ok(await _db.Set<Meet>()
+            var meetups = await _db.Set<Meet>()
                 .OrderBy(meet => meet.Time)
                 .ThenBy(meet => meet.Id)
-                .Select(meet => new MeetupResponse
-                {
-                    Id = meet.Id,
-                    Title = meet.title,
-                    Description = meet.description,
-                    Place = meet.Place,
-                    Time = meet.Time,
-                    MaxCapacity = meet.maxCapacity,
-                    HostId = meet.HostId,
-                    Host = meet.Host.Name
-                })
-                .ToListAsync(cancellationToken));
+                .Select(meet => new MeetupResponse(
+                    meet.Id,
+                    meet.title,
+                    meet.description,
+                    meet.Place,
+                    meet.Time,
+                    meet.maxCapacity,
+                    meet.HostId,
+                    meet.Host.Name
+                ))
+                .ToListAsync(cancellationToken);
+
+            return ServiceResult<List<MeetupResponse>>.Ok(meetups);
         }
 
         public async Task<MeetupResponse?> GetMeetupByIdAsync(
@@ -41,17 +42,16 @@ using Microsoft.EntityFrameworkCore;
         {
             return await _db.Set<Meet>()
                 .Where(meet => meet.Id == id)
-                .Select(meet => new MeetupResponse
-                {
-                    Id = meet.Id,
-                    Title = meet.title,
-                    Description = meet.description,
-                    Place = meet.Place,
-                    Time = meet.Time,
-                    MaxCapacity = meet.maxCapacity,
-                    HostId = meet.HostId,
-                    Host = meet.Host.Name
-                })
+                .Select(meet => new MeetupResponse(
+                    meet.Id,
+                    meet.title,
+                    meet.description,
+                    meet.Place,
+                    meet.Time,
+                    meet.maxCapacity,
+                    meet.HostId,
+                    meet.Host.Name
+                ))
                 .SingleOrDefaultAsync(cancellationToken);
         }
 
@@ -66,14 +66,14 @@ using Microsoft.EntityFrameworkCore;
                     nameof(request));
             }
 
-            var host = await _db.Set<user>().
-                SingleOrDefaultAsync(
-                user => user.Id == request.HostId,
-                cancellationToken);
+            var host = await _db.Set<user>()
+                .SingleOrDefaultAsync(
+                    user => user.Id == request.HostId,
+                    cancellationToken);
 
             if (host is null)
             {
-                return ServiceResult<MeetupResponse>.Fail("Couldnt find host");
+                return ServiceResult<MeetupResponse?>.Fail("Couldnt find host");
             }
 
             var meetup = new Meet
@@ -88,18 +88,18 @@ using Microsoft.EntityFrameworkCore;
             };
 
             _db.Set<Meet>().Add(meetup);
-
             await _db.SaveChangesAsync(cancellationToken);
 
-            return ServiceResult<MeetupResponse?>.Ok(new MeetupResponse
-            {
-                Id = meetup.Id,
-                Title = meetup.title,
-                Description = meetup.description,
-                Place = meetup.Place,
-                Time = meetup.Time,
-                MaxCapacity = meetup.maxCapacity
-            });
+            return ServiceResult<MeetupResponse?>.Ok(new MeetupResponse(
+                meetup.Id,
+                meetup.title,
+                meetup.description,
+                meetup.Place,
+                meetup.Time,
+                meetup.maxCapacity,
+                host.Id,
+                host.Name
+            ));
         }
 
         public async Task<List<MeetupResponse>> FindAsync(string searchText)
@@ -112,18 +112,46 @@ using Microsoft.EntityFrameworkCore;
                     meet.description.Contains(searchText))
                 .OrderBy(meet => meet.Time)
                 .ThenBy(meet => meet.Id)
-                .Select(meet => new MeetupResponse
-                {
-                    Id = meet.Id,
-                    Title = meet.title,
-                    Description = meet.description,
-                    Place = meet.Place,
-                    Time = meet.Time,
-                    MaxCapacity = meet.maxCapacity,
-                    HostId = meet.HostId,
-                    Host = meet.Host.Name
-                })
+                .Select(meet => new MeetupResponse(
+                    meet.Id,
+                    meet.title,
+                    meet.description,
+                    meet.Place,
+                    meet.Time,
+                    meet.maxCapacity,
+                    meet.HostId,
+                    meet.Host.Name
+                ))
                 .ToListAsync();
         }
+
+        public async Task<ServiceResult<bool>> RegisterMeetAsync(int meetupId, int userId)
+        {
+            var meetup = await _db.Set<Meet>()
+                .FirstOrDefaultAsync(m => m.Id == meetupId);
+
+            if (meetup is null)
+            {
+                return ServiceResult<bool>.Fail("Meetup not found");
+            }
+
+            var user = await _db.Set<user>().FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user is null)
+            {
+                return ServiceResult<bool>.Fail("User not found");
+            }
+
+            if (meetup.Attendes.Any(a => a.Id == userId))
+            {
+                return ServiceResult<bool>.Fail("User is already registered for this meetup");
+            }
+
+            meetup.Attendes.Add(user);
+            await _db.SaveChangesAsync();
+
+            return ServiceResult<bool>.Ok(true);
+        }
+
     }
 }
