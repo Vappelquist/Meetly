@@ -52,7 +52,10 @@ export default function Account() {
   const userName = user?.username || "User";
 
   useEffect(() => {
-    if (!userId) return navigate("/login");
+    if (!userId) {
+  navigate("/login");
+  return; 
+}
 
     const controller = new AbortController();
 

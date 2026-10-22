@@ -10,10 +10,10 @@ export default function LoginButton() {
             className="LoginButton-class" 
             onClick={() => {
                 console.log("Navigating to /login...");
-                navigate("MeetupForm");
+                navigate("/create");
             }}
         >
-            LOGIN
+            Create a meet
         </button>
     );
 }
