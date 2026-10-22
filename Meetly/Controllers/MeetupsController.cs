@@ -22,7 +22,7 @@ public class MeetupsController : ControllerBase
         var meetups = await _meetupService.GetMeetupsAsync(
             cancellationToken);
 
-        return Ok(meetups);
+        return Ok(meetups.Data);
     }
 
     [HttpGet("{id:int}")]
@@ -66,7 +66,7 @@ public class MeetupsController : ControllerBase
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<List<MeetupResponse>>> Find(
+    public async Task<ActionResult<List<MeetupResponse>>> FindMeetupsByKeyword(
     [FromQuery] string? searchText)
     {
         var meetups = await _meetupService.FindAsync(
