@@ -61,7 +61,7 @@ public class MeetupsController : ControllerBase
 
         return CreatedAtAction(
             nameof(GetMeetupById),
-            new { id = meetup.Data.Id },
+            new { id = meetup.Id },
             meetup);
     }
 
