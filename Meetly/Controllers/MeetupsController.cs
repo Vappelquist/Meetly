@@ -74,4 +74,17 @@ public class MeetupsController : ControllerBase
 
         return Ok(meetups);
     }
+
+    [HttpPost("{meetupId:int}/register/{userId:int}")]
+    public async Task<ActionResult> RegisterUserForMeetup(
+        int meetupId,
+        int userId)
+    {
+        var result = await _meetupService.RegisterMeetAsync(meetupId, userId);
+        if (!result.Success)
+        {
+            return BadRequest("Couldnt register user for the meetup.");
+        }
+        return Ok("Successfully registered user for the meetup.");
+    }
 }
