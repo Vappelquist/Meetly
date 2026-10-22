@@ -8,9 +8,9 @@ namespace Meetly.Controllers;
 [Route("api/[controller]")]
 public class MeetupsController : ControllerBase
 {
-    private readonly MeetupService _meetupService;
+    private readonly IMeetupService _meetupService;
 
-    public MeetupsController(MeetupService meetupService)
+    public MeetupsController(IMeetupService meetupService)
     {
         _meetupService = meetupService;
     }
@@ -63,5 +63,15 @@ public class MeetupsController : ControllerBase
             nameof(GetMeetupById),
             new { id = meetup.Id },
             meetup);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<List<MeetupResponse>>> Find(
+    [FromQuery] string? searchText)
+    {
+        var meetups = await _meetupService.FindAsync(
+            searchText ?? string.Empty);
+
+        return Ok(meetups);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
     namespace Meetly.Services
 {
-    public class MeetupService
+    public class MeetupService : IMeetupService
     {
         private readonly AppDbContext _db;
         
@@ -99,6 +99,30 @@ using Microsoft.EntityFrameworkCore;
                 Time = meetup.Time,
                 MaxCapacity = meetup.maxCapacity
             };
+        }
+
+        public async Task<List<MeetupResponse>> FindAsync(string searchText)
+        {
+            searchText = searchText.Trim();
+
+            return await _db.Set<Meet>()
+                .Where(meet =>
+                    meet.title.Contains(searchText) ||
+                    meet.description.Contains(searchText))
+                .OrderBy(meet => meet.Time)
+                .ThenBy(meet => meet.Id)
+                .Select(meet => new MeetupResponse
+                {
+                    Id = meet.Id,
+                    Title = meet.title,
+                    Description = meet.description,
+                    Place = meet.Place,
+                    Time = meet.Time,
+                    MaxCapacity = meet.maxCapacity,
+                    HostId = meet.HostId,
+                    Host = meet.Host.Name
+                })
+                .ToListAsync();
         }
     }
 }
