@@ -30,4 +30,9 @@ namespace Meetly.DTO
         int HostId
     );
 
+    public record RegisterAttandeRequest(
+        [Required]
+        int UserId
+    );
+
 }

@@ -124,5 +124,34 @@ namespace Meetly.Services
                 ))
                 .ToListAsync();
         }
+
+        public async Task<ServiceResult<bool>> RegisterMeetAsync(int meetupId, int userId)
+        {
+            var meetup = await _db.Set<Meet>()
+                .FirstOrDefaultAsync(m => m.Id == meetupId);
+
+            if (meetup is null)
+            {
+                return ServiceResult<bool>.Fail("Meetup not found");
+            }
+
+            var user = await _db.Set<user>().FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user is null)
+            {
+                return ServiceResult<bool>.Fail("User not found");
+            }
+
+            if (meetup.Attendes.Any(a => a.Id == userId))
+            {
+                return ServiceResult<bool>.Fail("User is already registered for this meetup");
+            }
+
+            meetup.Attendes.Add(user);
+            await _db.SaveChangesAsync();
+
+            return ServiceResult<bool>.Ok(true);
+        }
+
     }
 }

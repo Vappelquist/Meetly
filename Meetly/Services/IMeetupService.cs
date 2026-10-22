@@ -20,6 +20,6 @@ namespace Meetly.Services
         Task<List<MeetupResponse>> FindAsync(
             string searchText);
 
-
+        Task<ServiceResult<bool>> RegisterMeetAsync(int meetupId, int userId);
     }
 }
