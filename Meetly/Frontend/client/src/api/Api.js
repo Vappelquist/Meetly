@@ -17,3 +17,9 @@ export async function apiFetchCall(apiCall){
     if (!res.ok) throw new Error("Request failed");
     return res.json();  
 }
+
+export async function getMeetById(id, signal) {
+    const res = await fetch(`${API_URL}/api/meetups/${id}`, { signal });
+    if (!res.ok) throw new Error("Request failed");
+    return res.json();
+}

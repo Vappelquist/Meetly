@@ -3,6 +3,7 @@ import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
 import AccountPage from '../pages/AccountPage';
 import SignUpPage from '../pages/SignUpPage';
+import MoreInfoPage from '../pages/MoreInfo';
 
 const router = createHashRouter([
 // const router = createBrowserRouter([
@@ -21,7 +22,13 @@ const router = createHashRouter([
     {
         path: "/SignUp",
         element: <SignUpPage />
-    }
+    },
+    
+        { path: "/meetup/:id",
+         element: <MoreInfoPage /> }
+
+
+    
 ]);
 
 export default router;

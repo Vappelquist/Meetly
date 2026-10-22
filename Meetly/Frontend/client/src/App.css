@@ -426,3 +426,8 @@ section:has(> .header-class) {
   font-size: 0.85rem;
   color: #666;
 }
+
+.MeetingCard-link {
+    color: inherit;
+    text-decoration: none;
+}
