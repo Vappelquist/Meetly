@@ -153,5 +153,21 @@ namespace Meetly.Services
             return ServiceResult<bool>.Ok(true);
         }
 
+        public async Task<ServiceResult<bool>> DeleteMeetupAsync(int Id)
+        {
+            var meetup = await _db.Set<Meet>()
+                .FirstOrDefaultAsync(m => m.Id == Id);
+
+            if (meetup is null)
+            {
+                return ServiceResult<bool>.Fail("Meetup not found");
+            }
+
+            _db.Set<Meet>().Remove(meetup);
+            await _db.SaveChangesAsync();
+
+            return ServiceResult<bool>.Ok(true);
+        }
+
     }
 }
