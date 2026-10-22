@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import MeetingCard from "./MeetingCard";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function MeetingList(){
     const [events, setEvents] = useState([]);
 
     useEffect(() =>{
         const controller = new AbortController();
 
-        fetch("/api/events", {signal: controller.signal})
+        fetch(`${API_URL}/api/meetups`, { signal: controller.signal })
         .then((res) => res.json())
         .then (setEvents)
         .catch((err) => {
