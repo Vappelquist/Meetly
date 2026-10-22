@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMeetup } from "../api/Api";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateMeetupForm() {
   const navigate = useNavigate();
+    const { user } = useAuth();
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -23,12 +25,12 @@ export default function CreateMeetupForm() {
       await createMeetup({
         ...form,
         maxCapacity: Number(form.maxCapacity),
-        hostId: 4, // tillfälligt
+        hostId: user.id
       });
       navigate("/");
-    } catch {
-      setError("Kunde inte skapa meetup.");
-    }
+    } catch (err) {
+console.error("Create meetup failed:", err);
+  setError("Kunde inte skapa meetup.");    }
   };
 
   return (
