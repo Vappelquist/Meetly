@@ -28,6 +28,7 @@ getMeets(controller.signal)
 {meetups.map((m)=>(
   <MeetingCard
   key={m.id}
+  id={m.id}
   title={m.title}
   description={m.description}
   location={m.place}
