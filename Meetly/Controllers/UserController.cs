@@ -27,7 +27,7 @@ namespace Meetly.Controllers
                 return BadRequest("Invalid username/password Try Again");
             }
 
-            return Ok(user);  
+            return Ok(user.Data);  
         }
 
         [HttpPost("create", Name = "CreateUser")]
@@ -39,7 +39,7 @@ namespace Meetly.Controllers
                 return BadRequest("Couldnt Create Account");
             }
 
-            return Ok(result);
+            return Ok(result.Data);
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
@@ -51,7 +51,7 @@ namespace Meetly.Controllers
                 return BadRequest("User not found");
             }
 
-            return Ok(result);
+            return Ok(result.Data);
         }
 
     }
