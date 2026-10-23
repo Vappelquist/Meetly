@@ -128,6 +128,7 @@ namespace Meetly.Services
         public async Task<ServiceResult<bool>> RegisterMeetAsync(int meetupId, int userId)
         {
             var meetup = await _db.Set<Meet>()
+                .Include(m => m.Attendes)
                 .FirstOrDefaultAsync(m => m.Id == meetupId);
 
             if (meetup is null)
@@ -153,5 +154,33 @@ namespace Meetly.Services
             return ServiceResult<bool>.Ok(true);
         }
 
+        public async Task<ServiceResult<bool>> CancelAttendanceAsync(
+            int meetupId,
+            int userId)
+        {
+            var meetup = await _db.Set<Meet>()
+                .Include(m => m.Attendes)
+                .FirstOrDefaultAsync(m => m.Id == meetupId);
+
+            if (meetup is null)
+            {
+                return ServiceResult<bool>.Fail("Meetup not found");
+            }
+
+            var attendee = meetup.Attendes
+                .FirstOrDefault(a => a.Id == userId);
+
+            if (attendee is null)
+            {
+                return ServiceResult<bool>.Fail(
+                    "User is not registered for this meetup");
+            }
+
+            meetup.Attendes.Remove(attendee);
+
+            await _db.SaveChangesAsync();
+
+            return ServiceResult<bool>.Ok(true);
+        }
     }
 }

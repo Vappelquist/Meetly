@@ -192,6 +192,26 @@ section:has(> .header-class) {
   margin: 0;
 }  */
 
+.cancel-attendance-btn {
+    margin-top: 1rem;
+    padding: 8px 14px;
+    border: 1px solid #b42318;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #b42318;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .cancel-attendance-btn:hover:not(:disabled) {
+        background-color: #fff1f0;
+    }
+
+    .cancel-attendance-btn:disabled {
+        opacity: 0.6;
+        cursor: wait;
+    }
+
 .card-content {
   grid-column: 2;
   grid-row: 1 / span 2;

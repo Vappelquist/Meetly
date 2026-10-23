@@ -1,44 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { apiFetchCall } from "../api/Api";
 
-
-// This is a temporary function until we have fixed a real integartion with the database
-function generateMockMeets(count) { 
-  const titles = ["React Workshop", "Sprint Planning", "Lunch & Learn", "Architecture Review", "Board Games", "Gym Session"];
-  const places = ["Room 101", "Online (Teams)", "Cafeteria", "Main Auditorium", "Room 404"];
-
-  return Array.from({ length: count }, (_, index) => {
-    const pastDate = new Date();
-    pastDate.setDate(pastDate.getDate() - (index * 2));
-
-    return { //Basicly när vi integrer med riktig databas då är det dessa som vi behöver lägga in
-      id: index + 1,
-      title: `${titles[index % titles.length]} #${index + 1}`,
-      description: `Historical meeting notes and agenda for session ${index + 1}.`,
-      place: places[index % places.length],
-      time: pastDate.toISOString(),
-      maxCapacity: 5 + (index % 15),
-    };
-  });
-}
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Account() {
     // Bara hämtar lite skit
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const [meets, setMeets] = useState([]);
   const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [cancellingMeetupId, setCancellingMeetupId] = useState(null);
 
-  useEffect(() => { // skapar 20 mock meetings och säter loading till false
-    const timer = setTimeout(() => {
-      setMeets(generateMockMeets(20));
-      setLoading(false);
-    }, 500);
+    const userId = user?.id;
 
-    return () => clearTimeout(timer);
-  }, []);
+    useEffect(() => {
+        if (!userId) {
+            return;
+        }
+
+        let ignore = false;
+
+        async function loadMeetups() {
+            try {
+                const account = await apiFetchCall(`user/${userId}`);
+
+                if (!ignore) {
+                    setMeets(account.meetups);
+                    setErrorMessage("");
+                }
+            } catch (error) {
+                if (!ignore) {
+                    console.error(error);
+                    setErrorMessage("Could not load your meetups.");
+                }
+            } finally {
+                if (!ignore) {
+                    setLoading(false);
+                }
+            }
+        }
+
+        loadMeetups();
+
+        return () => {
+            ignore = true;
+        };
+    }, [userId]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -48,14 +59,48 @@ export default function Account() {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
+    };
+
+    async function handleCancelAttendance(meetupId) {
+        if (!userId) {
+            return;
+        }
+
+        setCancellingMeetupId(meetupId);
+        setErrorMessage("");
+
+        try {
+            const response = await fetch(
+                `${API_URL}/api/meetups/${meetupId}/register/${userId}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not cancel attendance.");
+            }
+
+            setMeets((currentMeets) =>
+                currentMeets.filter((meet) => meet.id !== meetupId)
+            );
+        } catch (error) {
+            console.error(error);
+            setErrorMessage("Could not cancel attendance. Please try again.");
+        } finally {
+            setCancellingMeetupId(null);
+        }
+    }
 
   return (
     <div className="account-page">
       <aside className="account-sidebar">
         <div className="account-user-info">
-          <div className="account-avatar">A</div>
-          <h2>Alex Johnson</h2>
+                  <div className="account-avatar">
+                      {user?.username?.charAt(0).toUpperCase() || "?"}
+                  </div>
+
+                  <h2>{user?.username || "Guest"}</h2>
           <span className="account-role">Member</span>
         </div>
         <button
@@ -71,10 +116,19 @@ export default function Account() {
       </aside>
 
       <main className="account-history">
-        <h2>Meeting History ({meets.length})</h2>
+              <h2>Meeting History ({meets.length})</h2>
+              {errorMessage && (
+                  <p role="alert">{errorMessage}</p>
+              )}
 
-        {loading ? (
-          <p>Loading meetings...</p>
+        {!userId ? (
+            <p>Please log in to see your meetups.</p>
+        ) : loading ? (
+            <p>Loading meetups...</p>
+        ) : errorMessage && meets.length === 0 ? (
+            null
+        ) : meets.length === 0 ? (
+            <p>You have not joined any meetups yet.</p>
         ) : (
           <div className="meets-scroll-container">
             <ul className="meets-scroll-list">
@@ -86,7 +140,17 @@ export default function Account() {
                     <span>{meet.place}</span>
                     <span>{formatDate(meet.time)}</span>
                     <span>Capacity: {meet.maxCapacity}</span>
-                  </div>
+                      </div>
+                      <button
+                          type="button"
+                          className="cancel-attendance-btn"
+                          onClick={() => handleCancelAttendance(meet.id)}
+                          disabled={cancellingMeetupId !== null}
+                      >
+                          {cancellingMeetupId === meet.id
+                              ? "Cancelling..."
+                              : "Cancel attendance"}
+                      </button>
                 </li>
               ))}
             </ul>
