@@ -12,6 +12,7 @@ export default function CreateMeetupForm() {
     place: "",
     time: "",
     maxCapacity: 10,
+    imageUrl:"",
   });
   const [error, setError] = useState("");
 
@@ -25,6 +26,7 @@ export default function CreateMeetupForm() {
       await createMeetup({
         ...form,
         maxCapacity: Number(form.maxCapacity),
+        imageUrl: form.imageUrl.trim() || null,
         hostId: user.id
       });
       navigate("/");
@@ -40,6 +42,7 @@ console.error("Create meetup failed:", err);
       <input name="place" placeholder="Plats" value={form.place} onChange={handleChange} required />
       <input name="time" type="datetime-local" value={form.time} onChange={handleChange} required />
       <input name="maxCapacity" type="number" min="1" value={form.maxCapacity} onChange={handleChange} required />
+      <input name="imageUrl" type="url" placeholder="Image-Url" value={form.imageUrl} onChange={handleChange} />
       <button type="submit">Skapa</button>
       {error && <p>{error}</p>}
     </form>

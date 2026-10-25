@@ -94,6 +94,7 @@ export default function HomePage() {
                         location={m.place}
                         date={new Date(m.time).toLocaleString("sv-SE")}
                         host={m.host}
+                        imageUrl={m.imageUrl}
                     />
                 ))}
             </main>
