@@ -5,8 +5,7 @@ export default function MeetingCard({id, title, description, host, date, imageUr
         <Link to={`/meetup/${id}`} className="MeetingCard-link">
         <section className="MeetingCard-class">
             <div className="MeetingCardLeft">
-                <img src={imageUrl} alt="{title}" />
-                <p>{date}</p>
+                {imageUrl && <img src={imageUrl} alt={title} />}                <p>{date}</p>
             </div>
             <div className="MeetingCardRight">
                 <h2>{title}</h2>

@@ -33,6 +33,10 @@ namespace Meetly.Migrations
                     b.Property<int>("HostId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Place")
                         .IsRequired()
                         .HasMaxLength(100)
