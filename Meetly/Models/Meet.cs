@@ -22,5 +22,7 @@ namespace Meetly.Models
 
         public ICollection<user> Attendes { get; set; }
 
+        [MaxLength(500)]
+        public string? ImageUrl { get; set; }
     }
 }

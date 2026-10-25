@@ -29,7 +29,8 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name
+                    meet.Host.Name,
+                    meet.ImageUrl
                 ))
                 .ToListAsync(cancellationToken);
 
@@ -50,7 +51,8 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name
+                    meet.Host.Name,
+                    meet.ImageUrl
                 ))
                 .SingleOrDefaultAsync(cancellationToken);
         }
@@ -84,6 +86,7 @@ namespace Meetly.Services
                 Time = request.Time.Value,
                 maxCapacity = request.MaxCapacity,
                 HostId = host.Id,
+                ImageUrl= request.ImageUrl.Trim(),
                 Attendes = new List<user>()
             };
 
@@ -98,7 +101,8 @@ namespace Meetly.Services
                 meetup.Time,
                 meetup.maxCapacity,
                 host.Id,
-                host.Name
+                host.Name,
+                meetup.ImageUrl
             ));
         }
 
@@ -120,7 +124,8 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name
+                    meet.Host.Name,
+                    meet.ImageUrl
                 ))
                 .ToListAsync();
         }

@@ -11,7 +11,8 @@ namespace Meetly.DTO
          DateTime Time,
          int MaxCapacity,
          int HostId,
-         string Host
+         string Host,
+         string? ImageUrl
     );
 
     public record CreateMeetupRequest(
@@ -27,7 +28,9 @@ namespace Meetly.DTO
         int MaxCapacity,
         // Tillfälligt input för att identifiera host
         [Range(1, int.MaxValue)]
-        int HostId
+        int HostId,
+        [Url]
+        string? ImageUrl = null
     );
 
     public record RegisterAttandeRequest(
