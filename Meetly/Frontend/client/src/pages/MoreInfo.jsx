@@ -31,6 +31,9 @@ export default function MoreInfoPage(){
             <Link to="/" className="moreinfo-back">Back</Link>
 
             <article className="moreinfo-card">
+                {meetup.imageUrl && (
+                  <img className="moreinfo-image" src={meetup.imageUrl} alt={meetup.title} />
+                )}
                 <h1 className="moreinfo-title">{meetup.title}</h1>
 
                 <dl className="moreinfo-meta">
