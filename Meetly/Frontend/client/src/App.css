@@ -509,3 +509,73 @@ section:has(> .header-class) {
     color: inherit;
     text-decoration: none;
 }
+
+.moreinfo-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  flex: 1;
+}
+
+.moreinfo-back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.moreinfo-back:hover {
+  color: var(--orange);
+}
+
+.moreinfo-card {
+  background-color: #ffffff;
+  border: 1px solid var(--muted-teal);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 16px rgba(0, 32, 70, 0.08);
+}
+
+.moreinfo-title {
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.5rem;
+  color: var(--navy);
+  font-size: 1.8rem;
+  border-bottom: 3px solid var(--turquoise);
+}
+
+.moreinfo-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+  margin: 0 0 1.5rem;
+}
+
+.moreinfo-label {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+.moreinfo-value {
+  margin: 0.15rem 0 0;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.moreinfo-subtitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--navy);
+}
+
+.moreinfo-description {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
