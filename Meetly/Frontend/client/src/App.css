@@ -578,4 +578,12 @@ section:has(> .header-class) {
   line-height: 1.6;
   white-space: pre-line;
 }
-
+.moreinfo-image {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
