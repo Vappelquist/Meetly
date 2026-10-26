@@ -14,6 +14,11 @@ export default function CreateMeetupForm() {
     maxCapacity: 10,
     imageUrl:"",
   });
+  const LIMITS = {
+    title: 50,
+    description: 200,
+    place: 100
+  }
   const [error, setError] = useState("");
 
   const handleChange = (e) =>
@@ -32,18 +37,22 @@ export default function CreateMeetupForm() {
       navigate("/");
     } catch (err) {
 console.error("Create meetup failed:", err);
-  setError("Kunde inte skapa meetup.");    }
+// if (new Date(form.time) < new Date()){
+//   setError("The meetup can't be in the past.");
+// }
+  setError("Couldn't create Meetup:.");    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="title" placeholder="Titel" value={form.title} onChange={handleChange} required />
-      <textarea name="description" placeholder="Beskrivning" value={form.description} onChange={handleChange} required />
-      <input name="place" placeholder="Plats" value={form.place} onChange={handleChange} required />
+      <input name="title" maxLength={LIMITS.title} placeholder="Title" value={form.title} onChange={handleChange} required />
+      <textarea name="description" maxLength={LIMITS.description} placeholder="Description" value={form.description} onChange={handleChange} required />
+      <small>{form.description.length}/{LIMITS.description}</small>
+      <input name="place" maxLength={LIMITS.place} placeholder="Location" value={form.place} onChange={handleChange} required />
       <input name="time" type="datetime-local" value={form.time} onChange={handleChange} required />
       <input name="maxCapacity" type="number" min="1" value={form.maxCapacity} onChange={handleChange} required />
       <input name="imageUrl" type="url" placeholder="Image-Url" value={form.imageUrl} onChange={handleChange} />
-      <button type="submit">Create</button>
+      <button type="Submit">Create</button>
       {error && <p>{error}</p>}
     </form>
   );
