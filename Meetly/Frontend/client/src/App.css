@@ -580,10 +580,11 @@ section:has(> .header-class) {
 }
 .moreinfo-image {
   display: block;
-  width: 100%;
-  max-height: 320px;
+  height: 100%;
+  max-width: 500px;
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
   margin-bottom: 1.5rem;
+  justify-self: center;
 }
