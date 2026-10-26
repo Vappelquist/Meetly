@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ToCreateMeetupForm from "../components/ToCreateMeetupForm";
 import { getMeets } from "../api/Api";
+import { deleteMeetup } from "../api/Api";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -17,7 +18,7 @@ const formatDate = (isoString) => {
   });
 };
 
-function MeetingSection({ title, meetings, emptyMessage }) {
+function MeetingSection({ title, meetings, emptyMessage, onDelete }) {
   return (
     <section className="meets-section">
       <h2>{title} ({meetings.length})</h2>
@@ -34,6 +35,16 @@ function MeetingSection({ title, meetings, emptyMessage }) {
                 <span>Time: {formatDate(m.time)}</span>
                 <span>Capacity: {m.maxCapacity}</span>
               </div>
+              {onDelete &&(
+                <button
+                  type="button"
+                  className = "meet-delete-btn"
+                  onClick={() => onDelete(m.id)}
+                    >
+                    Delete
+                    </button>
+
+              )}
             </li>
           ))}
         </ul>
@@ -82,6 +93,17 @@ useEffect(() => {
   const activeMeets = meets.filter((m) => m.time >= now);
   const historicalMeets = meets.filter((m) => m.time < now);
   const activeHosted = hosted.filter((m) => new Date(m.time) >= new Date());
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this meetup?")) return;
+    try {
+      await deleteMeetup(id);
+      setHosted((prev) => prev.filter((m) => m.id !== id))
+      setMeets((prev) => prev.filter((m) => m.id !== id))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
 
   return (
     <div className="account-page">
@@ -115,6 +137,7 @@ useEffect(() => {
               title="Active Hosted Meetings"
               meetings={activeHosted}
               empty ="No active meetings"
+              onDelete={handleDelete}
             />
             <MeetingSection
               title="Active Meetings"

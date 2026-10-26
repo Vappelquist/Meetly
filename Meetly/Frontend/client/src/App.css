@@ -588,3 +588,12 @@ section:has(> .header-class) {
   margin-bottom: 1.5rem;
   justify-self: center;
 }
+.meet-delete-btn {
+  margin-top: 0.75rem;
+  background-color: var(--orange);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}
