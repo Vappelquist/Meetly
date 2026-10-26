@@ -93,6 +93,7 @@ useEffect(() => {
   const activeMeets = meets.filter((m) => m.time >= now);
   const historicalMeets = meets.filter((m) => m.time < now);
   const activeHosted = hosted.filter((m) => new Date(m.time) >= new Date());
+  const PreviousHosted = hosted.filter((m) => new Date(m.time) <= new Date());
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this meetup?")) return;
     try {
@@ -139,6 +140,15 @@ useEffect(() => {
               empty ="No active meetings"
               onDelete={handleDelete}
             />
+
+            <MeetingSection
+              title="Previous Hosted Meetings"
+              meetings={PreviousHosted}
+              empty ="No active meetings"
+              onDelete={handleDelete}
+            />
+
+
             <MeetingSection
               title="Active Meetings"
               meetings={activeMeets}
