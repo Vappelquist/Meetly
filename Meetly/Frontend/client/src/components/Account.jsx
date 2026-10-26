@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ToCreateMeetupForm from "../components/ToCreateMeetupForm";
+import { getMeets } from "../api/Api";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -46,6 +47,7 @@ export default function Account() {
   const navigate = useNavigate();
 
   const [meets, setMeets] = useState([]);
+  const [hosted, setHosted] = useState([])
   const [loading, setLoading] = useState(true);
 
   const userId = user?.id;
@@ -57,20 +59,29 @@ export default function Account() {
   return; 
 }
 
-    const controller = new AbortController();
+const controller = new AbortController();
 
-    fetch(`${API_URL}/api/user/${userId}`, { signal: controller.signal })
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then((data) => setMeets(data.data?.meetups || data.meetups || []))
-      .catch((err) => err.name !== "AbortError" && console.error(err))
-      .finally(() => setLoading(false));
+fetch(`${API_URL}/api/user/${userId}`, { signal: controller.signal })
+.then((res) => (res.ok ? res.json() : Promise.reject(res)))
+.then((data) => setMeets(data.data?.meetups || data.meetups || []))
+.catch((err) => err.name !== "AbortError" && console.error(err))
+.finally(() => setLoading(false));
 
-    return () => controller.abort();
-  }, [userId, navigate]);
+return () => controller.abort();
+}, [userId, navigate]);
+
+useEffect(() => {
+  if (!userId) return;
+
+  getMeets()
+  .then((all) => setHosted(all.filter((m) => m.hostId === userId)))
+  .catch((err) => console.error(err));
+}, [userId])
 
   const now = new Date().toISOString();
   const activeMeets = meets.filter((m) => m.time >= now);
   const historicalMeets = meets.filter((m) => m.time < now);
+  const activeHosted = hosted.filter((m) => new Date(m.time) >= new Date());
 
   return (
     <div className="account-page">
@@ -100,6 +111,11 @@ export default function Account() {
           <p>Loading your meetings...</p>
         ) : (
           <div className="meets-scroll-container">
+            <MeetingSection
+              title="Active Hosted Meetings"
+              meetings={activeHosted}
+              empty ="No active meetings"
+            />
             <MeetingSection
               title="Active Meetings"
               meetings={activeMeets}
