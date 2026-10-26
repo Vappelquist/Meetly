@@ -43,7 +43,7 @@ console.error("Create meetup failed:", err);
       <input name="time" type="datetime-local" value={form.time} onChange={handleChange} required />
       <input name="maxCapacity" type="number" min="1" value={form.maxCapacity} onChange={handleChange} required />
       <input name="imageUrl" type="url" placeholder="Image-Url" value={form.imageUrl} onChange={handleChange} />
-      <button type="submit">Skapa</button>
+      <button type="submit">Create</button>
       {error && <p>{error}</p>}
     </form>
   );
