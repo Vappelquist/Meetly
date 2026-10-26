@@ -25,7 +25,7 @@ public class MeetupsController : ControllerBase
         return Ok(meetups.Data);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<MeetupResponse>> GetMeetupById(
         int id,
         CancellationToken cancellationToken)
@@ -75,7 +75,7 @@ public class MeetupsController : ControllerBase
         return Ok(meetups);
     }
 
-    [HttpPost("{meetupId:int}/register/{userId:int}")]
+    [HttpPost("{meetupId}/register/{id}")]
     public async Task<ActionResult> RegisterUserForMeetup(
         int meetupId,
         int userId)
