@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
+
+
 
 export default function MeetingCard({id, title, description, host, date, imageUrl}){
     return(
