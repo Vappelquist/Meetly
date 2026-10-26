@@ -91,14 +91,8 @@ public class MeetupsController : ControllerBase
     [HttpDelete("{meetupId:int}/register/{userId:int}")]
     public async Task<IActionResult> CancelAttendance(
     int meetupId,
-    int userId,
-    [FromServices] IWebHostEnvironment environment)
+    int userId)
     {
-        if (!environment.IsDevelopment())
-        {
-            return NotFound();
-        }
-
         var result = await _meetupService.CancelAttendanceAsync(
             meetupId,
             userId);
@@ -111,7 +105,6 @@ public class MeetupsController : ControllerBase
             });
         }
 
-        // It returns HTTP 204 = success with no body
         return NoContent();
     }
 }
