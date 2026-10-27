@@ -4,6 +4,8 @@ import {getMeetById} from "../api/Api"
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { formatDateTime } from "../utils/formatDate";
+
 
 export default function MoreInfoPage(){
     const {id} = useParams();
@@ -39,7 +41,7 @@ export default function MoreInfoPage(){
                 <dl className="moreinfo-meta">
                     <div>
                         <p>Time</p>
-                        <p>{new Date(meetup.time).toLocaleString("sv-SE")}</p>
+                        <p>{formatDateTime(meetup.time)}</p>
                     </div>
                     <div>
                         <p>Location</p>
