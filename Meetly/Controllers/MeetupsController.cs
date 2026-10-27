@@ -88,29 +88,30 @@ public class MeetupsController : ControllerBase
         return Ok("Successfully registered user for the meetup.");
     }
 
-    [HttpDelete("{meetupId:int}/register/{userId:int}")]
-    public async Task<IActionResult> CancelAttendance(
-    int meetupId,
-    int userId)
-    {
-        var result = await _meetupService.CancelAttendanceAsync(
-            meetupId,
-            userId);
+    //[HttpDelete("{meetupId:int}/register/{userId:int}")]
+    //public async Task<IActionResult> CancelAttendance(
+    //int meetupId,
+    //int userId)
+    //{
+    //    var result = await _meetupService.CancelAttendanceAsync(
+    //        meetupId,
+    //        userId);
 
-        if (!result.Success)
-        {
-            return BadRequest(new
-            {
-                message = result.ErrorMessage
-            });
-        }
+    //    if (!result.Success)
+    //    {
+    //        return BadRequest(new
+    //        {
+    //            message = result.ErrorMessage
+    //        });
+    //    }
 
-        return NoContent();
-        }
+    //    return NoContent();
+    //}
+
     [HttpDelete("Delete/{Id}")]
-    public async Task<ActionResult> DeleteMeetup(int Id)
+    public async Task<ActionResult> DeleteMeetup(int Id, int userId)
     {
-        var result = await _meetupService.DeleteMeetupAsync(Id);
+        var result = await _meetupService.DeleteMeetupAsync(Id, userId);
         if (!result.Success)
         {
             return BadRequest("Couldnt delete the meetup.");
