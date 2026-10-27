@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
-export default function SignUp (){
+export default function SignUp() {
     const API_URL = import.meta.env.VITE_API_URL;
 
     const [username, setUsername] = useState("");
@@ -11,12 +10,12 @@ export default function SignUp (){
 
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleSignUp = async (e) => {
         if (e) e.preventDefault();
         setErrorMessage("");
 
         try {
-            const response = await fetch(`${API_URL}/api/user/create/`, {
+            const response = await fetch(`${API_URL}/api/Auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -28,14 +27,13 @@ export default function SignUp (){
             });
 
             if (!response.ok) {
-                const message = await response.text();
-                setErrorMessage(message || "Login failed.");
+                const errorData = await response.json().catch(() => null);
+                const message = Array.isArray(errorData) ? errorData.join(", ") : await response.text();
+                setErrorMessage(message || "Signup failed.");
                 return;
             }
 
-            const userData = await response.json();
-
-            navigate("/");
+            navigate("/login");
         } catch (error) {
             console.error("Fetch error:", error);
             setErrorMessage("Could not connect to the backend.");
@@ -60,8 +58,8 @@ export default function SignUp (){
                 onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="button" className="login-submit-btn" onClick={handleLogin}>
-                Signup
+            <button type="button" className="login-submit-btn" onClick={handleSignUp}>
+                Sign Up
             </button>
         </div>
     );

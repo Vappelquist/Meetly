@@ -15,60 +15,6 @@ namespace Meetly.Services
             _ctx = ctx;
         }
 
-        public async Task<ServiceResult<LoginResponse?>> LoginAsync(string username, string password)
-        {
-            var user = await _ctx.User.FirstOrDefaultAsync(u => u.Name == username);
-            if (user == null)
-            {
-                return ServiceResult<LoginResponse?>.Fail("User not found.");
-            }
-            else if (user.PasswordHash != password)
-            {
-                return ServiceResult<LoginResponse?>.Fail("Invalid password.");
-            }
-
-            return ServiceResult<LoginResponse?>.Ok(new LoginResponse
-            (
-                user.Name,
-                user.Id
-            ));
-        }
-
-        public async Task<ServiceResult<CreateUserResponse>> CreateAsync(CreateUserRequest request)
-        {
-            var newUser = new user
-            {
-                Name = request.name,
-                PasswordHash = request.password
-            };
-
-            if (await _ctx.User.AnyAsync(u => u.Name == request.name))
-            {
-                return ServiceResult<CreateUserResponse>.Fail("User already exists.");
-            }
-            if (string.IsNullOrEmpty(request.name.Trim()) || string.IsNullOrEmpty(request.password.Trim()))
-            {
-                return ServiceResult<CreateUserResponse>.Fail("Name and password cannot be empty.");
-            }
-            else if (request.password.Length < 5)
-            {
-                return ServiceResult<CreateUserResponse>.Fail("Password must be at least 5 characters long.");
-            }
-            else if (request.password.Any(char.IsWhiteSpace) || request.name.Any(char.IsWhiteSpace))
-            {
-                return ServiceResult<CreateUserResponse>.Fail("Name and password cannot contain whitespace.");
-            }
-
-            await _ctx.User.AddAsync(newUser);
-            await _ctx.SaveChangesAsync();
-
-            return ServiceResult<CreateUserResponse>.Ok(new CreateUserResponse
-            (
-                request.name,
-                newUser.PasswordHash
-            ));
-        }
-
         public async Task<ServiceResult<GetUserByIdResponse?>> GetUserByIdAsync(int userId)
         {
             var user = await _ctx.User.Include(u => u.AttendingMeets).FirstOrDefaultAsync(u => u.Id == userId);
@@ -88,7 +34,7 @@ namespace Meetly.Services
 
             return ServiceResult<GetUserByIdResponse?>.Ok(new GetUserByIdResponse(
                 user.Id,
-                user.Name,
+                user.UserName,
                 meets
             ));
         }
