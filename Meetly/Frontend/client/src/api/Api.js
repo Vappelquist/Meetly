@@ -41,3 +41,11 @@ export async function SignUp(meetId, id){
     if (!res.ok) throw new Error("Request failed");
     return res.json();
 }
+
+export async function deleteMeetup(id){
+    const res = await fetch(${API_URL}/api/meetups/${meetId}/register/${id}, {
+        method: "POST",
+    });
+    if (!res.ok) throw new Error("Request failed");
+    return res.json();
+}
