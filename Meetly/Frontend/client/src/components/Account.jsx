@@ -17,7 +17,7 @@ const formatDate = (isoString) => {
   });
 };
 
-function MeetingSection({ title, meetings, emptyMessage, onDelete }) {
+function MeetingSection({ title, meetings, emptyMessage }) {
   return (
     <section className="meets-section">
       <h2>{title} ({meetings.length})</h2>

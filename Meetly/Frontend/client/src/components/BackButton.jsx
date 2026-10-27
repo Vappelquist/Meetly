@@ -7,7 +7,7 @@ export default function LoginButton() {
 
     return (
         <button className="BackButton-class" onClick={() => navigate("/")}>
-            Back
+            Tillbaka
         </button>
     );
 }

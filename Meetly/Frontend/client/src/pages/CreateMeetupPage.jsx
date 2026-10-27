@@ -7,7 +7,7 @@ export default function CreateMeetupPage() {
     return (
         <section>
             <Header />
-            <main className="createmeetup-page">
+            <main>
                 <h1>Create meetup</h1>
                 <CreateMeetupForm />
             </main>
