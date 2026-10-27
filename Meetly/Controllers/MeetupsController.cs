@@ -106,6 +106,7 @@ public class MeetupsController : ControllerBase
         }
 
         return NoContent();
+        }
     [HttpDelete("Delete/{Id}")]
     public async Task<ActionResult> DeleteMeetup(int Id)
     {
