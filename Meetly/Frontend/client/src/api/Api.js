@@ -43,7 +43,7 @@ export async function SignUp(meetId, id){
 }
 
 export async function deleteMeetup(id){
-    const res = await fetch(${API_URL}/api/meetups/${meetId}/register/${id}, {
+    const res = await fetch(${API_URL}/api/meetups/Delete/${id}, {
         method: "POST",
     });
     if (!res.ok) throw new Error("Request failed");
