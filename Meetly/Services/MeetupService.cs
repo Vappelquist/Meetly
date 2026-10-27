@@ -159,14 +159,7 @@ namespace Meetly.Services
             return ServiceResult<bool>.Ok(true);
         }
 
-        public async Task<ServiceResult<bool>> CancelAttendanceAsync(
-            int meetupId,
-            int userId)
-        {
-            var meetup = await _db.Set<Meet>()
-                .Include(m => m.Attendes)
-                .FirstOrDefaultAsync(m => m.Id == meetupId);
-                }
+        
         public async Task<ServiceResult<bool>> DeleteMeetupAsync(int Id)
         {
             var meetup = await _db.Set<Meet>()
