@@ -17,7 +17,7 @@ namespace Meetly.Services
 
         public async Task<ServiceResult<LoginResponse?>> LoginAsync(string username, string password)
         {
-            var user = await _ctx.User.FirstOrDefaultAsync(u => u.Name == username);
+            var user = await _ctx.User.FirstOrDefaultAsync(u => u.UserName == username);
             if (user == null)
             {
                 return ServiceResult<LoginResponse?>.Fail("User not found.");
@@ -29,7 +29,7 @@ namespace Meetly.Services
 
             return ServiceResult<LoginResponse?>.Ok(new LoginResponse
             (
-                user.Name,
+                user.UserName,
                 user.Id
             ));
         }
@@ -38,11 +38,11 @@ namespace Meetly.Services
         {
             var newUser = new user
             {
-                Name = request.name,
+                UserName = request.name,
                 PasswordHash = request.password
             };
 
-            if (await _ctx.User.AnyAsync(u => u.Name == request.name))
+            if (await _ctx.User.AnyAsync(u => u.UserName == request.name))
             {
                 return ServiceResult<CreateUserResponse>.Fail("User already exists.");
             }
@@ -88,7 +88,7 @@ namespace Meetly.Services
 
             return ServiceResult<GetUserByIdResponse?>.Ok(new GetUserByIdResponse(
                 user.Id,
-                user.Name,
+                user.UserName,
                 meets
             ));
         }

@@ -29,7 +29,7 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name,
+                    meet.Host.UserName,
                     meet.ImageUrl
                 ))
                 .ToListAsync(cancellationToken);
@@ -41,7 +41,7 @@ namespace Meetly.Services
             int id,
             CancellationToken cancellationToken)
         {
-            return await _db.Set<Meet>()
+               return await _db.Set<Meet>()
                 .Where(meet => meet.Id == id)
                 .Select(meet => new MeetupResponse(
                     meet.Id,
@@ -51,7 +51,7 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name,
+                    meet.Host.UserName,
                     meet.ImageUrl
                 ))
                 .SingleOrDefaultAsync(cancellationToken);
@@ -101,7 +101,7 @@ namespace Meetly.Services
                 meetup.Time,
                 meetup.maxCapacity,
                 host.Id,
-                host.Name,
+                host.UserName,
                 meetup.ImageUrl
             ));
         }
@@ -124,7 +124,7 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name,
+                    meet.Host.UserName,
                     meet.ImageUrl
                 ))
                 .ToListAsync();
