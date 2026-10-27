@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ToCreateMeetupForm from "../components/ToCreateMeetupForm";
-import { getMeets } from "../api/Api";
-import { deleteMeetup } from "../api/Api";
+import { getMeets, deleteMeetup } from "../api/Api";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -35,15 +34,14 @@ function MeetingSection({ title, meetings, emptyMessage, onDelete }) {
                 <span>Time: {formatDate(m.time)}</span>
                 <span>Capacity: {m.maxCapacity}</span>
               </div>
-              {onDelete &&(
+              {onDelete && (
                 <button
                   type="button"
-                  className = "meet-delete-btn"
+                  className="meet-delete-btn"
                   onClick={() => onDelete(m.id)}
-                    >
-                    Delete
-                    </button>
-
+                >
+                  Delete
+                </button>
               )}
             </li>
           ))}
@@ -58,7 +56,7 @@ export default function Account() {
   const navigate = useNavigate();
 
   const [meets, setMeets] = useState([]);
-  const [hosted, setHosted] = useState([])
+  const [hosted, setHosted] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const userId = user?.id;
@@ -66,45 +64,47 @@ export default function Account() {
 
   useEffect(() => {
     if (!userId) {
-  navigate("/login");
-  return; 
-}
+      navigate("/login");
+      return;
+    }
 
-const controller = new AbortController();
+    const controller = new AbortController();
 
-fetch(`${API_URL}/api/user/${userId}`, { signal: controller.signal })
-.then((res) => (res.ok ? res.json() : Promise.reject(res)))
-.then((data) => setMeets(data.data?.meetups || data.meetups || []))
-.catch((err) => err.name !== "AbortError" && console.error(err))
-.finally(() => setLoading(false));
+    fetch(`${API_URL}/api/user/${userId}`, { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((data) => setMeets(data.data?.meetups || data.meetups || []))
+      .catch((err) => err.name !== "AbortError" && console.error(err))
+      .finally(() => setLoading(false));
 
-return () => controller.abort();
-}, [userId, navigate]);
+    return () => controller.abort();
+  }, [userId, navigate]);
 
-useEffect(() => {
-  if (!userId) return;
+  useEffect(() => {
+    if (!userId) return;
 
-  getMeets()
-  .then((all) => setHosted(all.filter((m) => m.hostId === userId)))
-  .catch((err) => console.error(err));
-}, [userId])
+    getMeets()
+      .then((all) => setHosted(all.filter((m) => m.hostId === userId)))
+      .catch((err) => console.error(err));
+  }, [userId]);
 
-  const now = new Date().toISOString();
-  const activeMeets = meets.filter((m) => m.time >= now);
-  const historicalMeets = meets.filter((m) => m.time < now);
-  const activeHosted = hosted.filter((m) => new Date(m.time) >= new Date());
-  const PreviousHosted = hosted.filter((m) => new Date(m.time) <= new Date());
+  const now = new Date();
+  const isUpcoming = (m) => new Date(m.time) >= now;
+
+  const activeMeets = meets.filter(isUpcoming);
+  const historicalMeets = meets.filter((m) => !isUpcoming(m));
+  const activeHosted = hosted.filter(isUpcoming);
+  const previousHosted = hosted.filter((m) => !isUpcoming(m));
+
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this meetup?")) return;
     try {
       await deleteMeetup(id);
-      setHosted((prev) => prev.filter((m) => m.id !== id))
-      setMeets((prev) => prev.filter((m) => m.id !== id))
+      setHosted((prev) => prev.filter((m) => m.id !== id));
+      setMeets((prev) => prev.filter((m) => m.id !== id));
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
-
+  };
 
   return (
     <div className="account-page">
@@ -116,7 +116,7 @@ useEffect(() => {
           <h2>{userName}</h2>
           <span className="account-role">Member</span>
         </div>
-        <ToCreateMeetupForm/>
+        <ToCreateMeetupForm />
         <button
           type="button"
           className="account-logout-btn"
@@ -137,18 +137,15 @@ useEffect(() => {
             <MeetingSection
               title="Active Hosted Meetings"
               meetings={activeHosted}
-              empty ="No active meetings"
+              emptyMessage="No active hosted meetings."
               onDelete={handleDelete}
             />
-
             <MeetingSection
               title="Previous Hosted Meetings"
-              meetings={PreviousHosted}
-              empty ="No active meetings"
+              meetings={previousHosted}
+              emptyMessage="No previous hosted meetings."
               onDelete={handleDelete}
             />
-
-
             <MeetingSection
               title="Active Meetings"
               meetings={activeMeets}
