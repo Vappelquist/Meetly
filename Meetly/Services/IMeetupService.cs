@@ -22,10 +22,6 @@ namespace Meetly.Services
 
         Task<ServiceResult<bool>> RegisterMeetAsync(int meetupId, int userId);
 
-        Task<ServiceResult<bool>> CancelAttendanceAsync(
-            int meetupId,
-            int userId
-        );
-        Task<ServiceResult<bool>> DeleteMeetupAsync(int Id, userId);
+        Task<ServiceResult<bool>> DeleteMeetupAsync(int Id);
     }
 }

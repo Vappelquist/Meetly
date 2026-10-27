@@ -47,5 +47,4 @@ export async function deleteMeetup(id){
         method: "DELETE",
     });
     if (!res.ok) throw new Error("Request failed");
-    return res.json();
 }

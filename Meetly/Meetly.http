@@ -1,5 +1,3 @@
-### Tests 
-
 @Meetly_HostAddress = http://localhost:5164
 
 GET {{Meetly_HostAddress}}/weatherforecast/
@@ -23,10 +21,3 @@ Accept: application/json
   "maxCapacity": 10,
   "hostId": d
 }
-
-### Register user 3 for meetup 1
-POST {{Meetly_HostAddress}}/api/meetups/1/register/3
-Accept: application/json
-
-### Cancel user 3's attendance at meetup 1
-DELETE {{Meetly_HostAddress}}/api/meetups/1/register/3
