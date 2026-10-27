@@ -166,6 +166,7 @@ namespace Meetly.Services
             var meetup = await _db.Set<Meet>()
                 .Include(m => m.Attendes)
                 .FirstOrDefaultAsync(m => m.Id == meetupId);
+                }
         public async Task<ServiceResult<bool>> DeleteMeetupAsync(int Id)
         {
             var meetup = await _db.Set<Meet>()
