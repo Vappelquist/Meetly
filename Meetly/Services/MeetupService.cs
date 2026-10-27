@@ -37,9 +37,7 @@ namespace Meetly.Services
             return ServiceResult<List<MeetupResponse>>.Ok(meetups);
         }
 
-        public async Task<MeetupResponse?> GetMeetupByIdAsync(
-            int id,
-            CancellationToken cancellationToken)
+        public async Task<MeetupResponse?> GetMeetupByIdAsync(int id)
         {
                return await _db.Set<Meet>()
                 .Where(meet => meet.Id == id)
@@ -54,7 +52,7 @@ namespace Meetly.Services
                     meet.Host.UserName,
                     meet.ImageUrl
                 ))
-                .SingleOrDefaultAsync(cancellationToken);
+                .SingleOrDefaultAsync();
         }
 
         public async Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(

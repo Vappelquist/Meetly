@@ -48,7 +48,7 @@ public class AppDbContext : IdentityDbContext<user, IdentityRole<int>, int>
                 Id = 4,
                 UserName = "frank",
                 NormalizedUserName = "FRANK",
-                PasswordHash = "AQAAAAIAAYagAAAAELgB3s8m3R8i5b3l/jR8O2yG9QvQ3eZ8wY8b4z7k1v2x3y4z5a6b7c8d9e0f==",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
                 SecurityStamp = "00000000-0000-0000-0000-000000000004",
                 ConcurrencyStamp = "00000000-0000-0000-0000-000000000004"
             },
@@ -57,7 +57,7 @@ public class AppDbContext : IdentityDbContext<user, IdentityRole<int>, int>
                 Id = 5,
                 UserName = "grace",
                 NormalizedUserName = "GRACE",
-                PasswordHash = "AQAAAAIAAYagAAAAELgB3s8m3R8i5b3l/jR8O2yG9QvQ3eZ8wY8b4z7k1v2x3y4z5a6b7c8d9e0f==",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
                 SecurityStamp = "00000000-0000-0000-0000-000000000005",
                 ConcurrencyStamp = "00000000-0000-0000-0000-000000000005"
             },
@@ -66,7 +66,7 @@ public class AppDbContext : IdentityDbContext<user, IdentityRole<int>, int>
                 Id = 6,
                 UserName = "heidi",
                 NormalizedUserName = "HEIDI",
-                PasswordHash = "AQAAAAIAAYagAAAAELgB3s8m3R8i5b3l/jR8O2yG9QvQ3eZ8wY8b4z7k1v2x3y4z5a6b7c8d9e0f==",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
                 SecurityStamp = "00000000-0000-0000-0000-000000000006",
                 ConcurrencyStamp = "00000000-0000-0000-0000-000000000006"
             },
@@ -75,7 +75,7 @@ public class AppDbContext : IdentityDbContext<user, IdentityRole<int>, int>
                 Id = 7,
                 UserName = "ivan",
                 NormalizedUserName = "IVAN",
-                PasswordHash = "AQAAAAIAAYagAAAAELgB3s8m3R8i5b3l/jR8O2yG9QvQ3eZ8wY8b4z7k1v2x3y4z5a6b7c8d9e0f==",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
                 SecurityStamp = "00000000-0000-0000-0000-000000000007",
                 ConcurrencyStamp = "00000000-0000-0000-0000-000000000007"
             },

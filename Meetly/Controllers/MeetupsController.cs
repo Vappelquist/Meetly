@@ -32,9 +32,7 @@ public class MeetupsController : ControllerBase
         int id,
         CancellationToken cancellationToken)
     {
-        var meetup = await _meetupService.GetMeetupByIdAsync(
-            id,
-            cancellationToken);
+        var meetup = await _meetupService.GetMeetupByIdAsync(id);
 
         if (meetup is null)
         {
@@ -46,7 +44,7 @@ public class MeetupsController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<MeetupResponse>> CreateMeetup([FromBody] CreateMeetupRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<MeetupResponse>> CreateMeetup(CreateMeetupRequest request, CancellationToken cancellationToken)
     {
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (!int.TryParse(userIdClaim, out var currentUserId))

@@ -10,8 +10,7 @@ namespace Meetly.Services
             CancellationToken cancellationToken);
 
         Task<MeetupResponse?> GetMeetupByIdAsync(
-            int id,
-            CancellationToken cancellationToken);
+            int id);
 
         Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(
             CreateMeetupRequest request,
