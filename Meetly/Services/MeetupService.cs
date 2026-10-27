@@ -151,7 +151,7 @@ namespace Meetly.Services
             {
                 return ServiceResult<bool>.Fail("User is already registered for this meetup");
             }
-
+            //Hi guys i have fixed it
             meetup.Attendes.Add(user);
             await _db.SaveChangesAsync();
 
