@@ -25,7 +25,7 @@ public class MeetupsController : ControllerBase
         return Ok(meetups.Data);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<MeetupResponse>> GetMeetupById(
         int id,
         CancellationToken cancellationToken)
@@ -75,7 +75,7 @@ public class MeetupsController : ControllerBase
         return Ok(meetups);
     }
 
-    [HttpPost("{meetupId:int}/register/{userId:int}")]
+    [HttpPost("{meetupId}/register/{id}")]
     public async Task<ActionResult> RegisterUserForMeetup(
         int meetupId,
         int userId)
@@ -106,5 +106,14 @@ public class MeetupsController : ControllerBase
         }
 
         return NoContent();
+    [HttpDelete("Delete/{Id}")]
+    public async Task<ActionResult> DeleteMeetup(int Id)
+    {
+        var result = await _meetupService.DeleteMeetupAsync(Id);
+        if (!result.Success)
+        {
+            return BadRequest("Couldnt delete the meetup.");
+        }
+        return Ok("Successfully deleted the meetup.");
     }
 }

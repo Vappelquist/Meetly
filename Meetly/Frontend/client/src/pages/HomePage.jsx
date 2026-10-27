@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { getMeets, apiFetchCall } from "../api/Api";
 import MeetingCard from "../components/MeetingCard";
+import { formatDateTime } from "../utils/formatDate";
 
 export default function HomePage() {
     const [meetups, setMeetups] = useState([]);
@@ -88,11 +89,13 @@ export default function HomePage() {
                 {meetups.map((m) => (
                     <MeetingCard
                         key={m.id}
+                        id={m.id}
                         title={m.title}
                         description={m.description}
                         location={m.place}
-                        date={new Date(m.time).toLocaleString("sv-SE")}
+                        date={formatDateTime(m.time)}
                         host={m.host}
+                        imageUrl={m.imageUrl}
                     />
                 ))}
             </main>

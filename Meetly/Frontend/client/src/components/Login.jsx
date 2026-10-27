@@ -34,9 +34,11 @@ export default function Login() {
                 return;
             }
 
-            const userData = await response.json();
+            const responseData = await response.json();
 
-            login(userData);
+            const user = responseData.data || responseData;
+
+            login(user);
             navigate("/");
         } catch (error) {
             console.error("Fetch error:", error);

@@ -29,7 +29,8 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name
+                    meet.Host.Name,
+                    meet.ImageUrl
                 ))
                 .ToListAsync(cancellationToken);
 
@@ -50,7 +51,8 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name
+                    meet.Host.Name,
+                    meet.ImageUrl
                 ))
                 .SingleOrDefaultAsync(cancellationToken);
         }
@@ -84,6 +86,7 @@ namespace Meetly.Services
                 Time = request.Time.Value,
                 maxCapacity = request.MaxCapacity,
                 HostId = host.Id,
+                ImageUrl= request.ImageUrl.Trim(),
                 Attendes = new List<user>()
             };
 
@@ -98,7 +101,8 @@ namespace Meetly.Services
                 meetup.Time,
                 meetup.maxCapacity,
                 host.Id,
-                host.Name
+                host.Name,
+                meetup.ImageUrl
             ));
         }
 
@@ -120,7 +124,8 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name
+                    meet.Host.Name,
+                    meet.ImageUrl
                 ))
                 .ToListAsync();
         }
@@ -161,6 +166,10 @@ namespace Meetly.Services
             var meetup = await _db.Set<Meet>()
                 .Include(m => m.Attendes)
                 .FirstOrDefaultAsync(m => m.Id == meetupId);
+        public async Task<ServiceResult<bool>> DeleteMeetupAsync(int Id)
+        {
+            var meetup = await _db.Set<Meet>()
+                .FirstOrDefaultAsync(m => m.Id == Id);
 
             if (meetup is null)
             {
@@ -178,9 +187,11 @@ namespace Meetly.Services
 
             meetup.Attendes.Remove(attendee);
 
+            _db.Set<Meet>().Remove(meetup);
             await _db.SaveChangesAsync();
 
             return ServiceResult<bool>.Ok(true);
         }
+
     }
 }

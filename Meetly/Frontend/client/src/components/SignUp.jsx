@@ -10,7 +10,6 @@ export default function SignUp (){
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
-const { login } = useAuth();
 
     const handleLogin = async (e) => {
         if (e) e.preventDefault();
@@ -36,7 +35,6 @@ const { login } = useAuth();
 
             const userData = await response.json();
 
-            login(userData);
             navigate("/");
         } catch (error) {
             console.error("Fetch error:", error);

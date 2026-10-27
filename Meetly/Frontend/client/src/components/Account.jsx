@@ -1,16 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { apiFetchCall } from "../api/Api";
+import ToCreateMeetupForm from "../components/ToCreateMeetupForm";
+import { getMeets } from "../api/Api";
+import { deleteMeetup } from "../api/Api";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+const formatDate = (isoString) => {
+  if (!isoString) return "";
+  return new Date(isoString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+function MeetingSection({ title, meetings, emptyMessage, onDelete }) {
+  return (
+    <section className="meets-section">
+      <h2>{title} ({meetings.length})</h2>
+      {meetings.length === 0 ? (
+        <p>{emptyMessage}</p>
+      ) : (
+        <ul className="meets-scroll-list">
+          {meetings.map((m) => (
+            <li key={m.id} className="meet-card">
+              <h3>{m.title}</h3>
+              <p>{m.description}</p>
+              <div className="meet-meta">
+                <span>Place: {m.place}</span>
+                <span>Time: {formatDate(m.time)}</span>
+                <span>Capacity: {m.maxCapacity}</span>
+              </div>
+              {onDelete &&(
+                <button
+                  type="button"
+                  className = "meet-delete-btn"
+                  onClick={() => onDelete(m.id)}
+                    >
+                    Delete
+                    </button>
+
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
 export default function Account() {
-    // Bara hämtar lite skit
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const [meets, setMeets] = useState([]);
+  const [hosted, setHosted] = useState([])
   const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [cancellingMeetupId, setCancellingMeetupId] = useState(null);
@@ -44,65 +92,62 @@ export default function Account() {
             }
         }
 
-        loadMeetups();
+  const userId = user?.id;
+  const userName = user?.username || "User";
 
-        return () => {
-            ignore = true;
-        };
-    }, [userId]);
+  useEffect(() => {
+    if (!userId) {
+  navigate("/login");
+  return; 
+}
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    };
+const controller = new AbortController();
 
-    async function handleCancelAttendance(meetupId) {
-        if (!userId) {
-            return;
-        }
+fetch(`${API_URL}/api/user/${userId}`, { signal: controller.signal })
+.then((res) => (res.ok ? res.json() : Promise.reject(res)))
+.then((data) => setMeets(data.data?.meetups || data.meetups || []))
+.catch((err) => err.name !== "AbortError" && console.error(err))
+.finally(() => setLoading(false));
 
-        setCancellingMeetupId(meetupId);
-        setErrorMessage("");
+return () => controller.abort();
+}, [userId, navigate]);
 
-        try {
-            const response = await fetch(
-                `${API_URL}/api/meetups/${meetupId}/register/${userId}`,
-                {
-                    method: "DELETE"
-                }
-            );
+useEffect(() => {
+  if (!userId) return;
 
-            if (!response.ok) {
-                throw new Error("Could not cancel attendance.");
-            }
+  getMeets()
+  .then((all) => setHosted(all.filter((m) => m.hostId === userId)))
+  .catch((err) => console.error(err));
+}, [userId])
 
-            setMeets((currentMeets) =>
-                currentMeets.filter((meet) => meet.id !== meetupId)
-            );
-        } catch (error) {
-            console.error(error);
-            setErrorMessage("Could not cancel attendance. Please try again.");
-        } finally {
-            setCancellingMeetupId(null);
-        }
+  const now = new Date().toISOString();
+  const activeMeets = meets.filter((m) => m.time >= now);
+  const historicalMeets = meets.filter((m) => m.time < now);
+  const activeHosted = hosted.filter((m) => new Date(m.time) >= new Date());
+  const PreviousHosted = hosted.filter((m) => new Date(m.time) <= new Date());
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this meetup?")) return;
+    try {
+      await deleteMeetup(id);
+      setHosted((prev) => prev.filter((m) => m.id !== id))
+      setMeets((prev) => prev.filter((m) => m.id !== id))
+    } catch (err) {
+      console.error(err)
     }
+  }
+
 
   return (
     <div className="account-page">
       <aside className="account-sidebar">
         <div className="account-user-info">
-                  <div className="account-avatar">
-                      {user?.username?.charAt(0).toUpperCase() || "?"}
-                  </div>
-
-                  <h2>{user?.username || "Guest"}</h2>
+          <div className="account-avatar">
+            {userName.charAt(0).toUpperCase()}
+          </div>
+          <h2>{userName}</h2>
           <span className="account-role">Member</span>
         </div>
+        <ToCreateMeetupForm/>
         <button
           type="button"
           className="account-logout-btn"
@@ -116,44 +161,35 @@ export default function Account() {
       </aside>
 
       <main className="account-history">
-              <h2>Meeting History ({meets.length})</h2>
-              {errorMessage && (
-                  <p role="alert">{errorMessage}</p>
-              )}
-
-        {!userId ? (
-            <p>Please log in to see your meetups.</p>
-        ) : loading ? (
-            <p>Loading meetups...</p>
-        ) : errorMessage && meets.length === 0 ? (
-            null
-        ) : meets.length === 0 ? (
-            <p>You have not joined any meetups yet.</p>
+        {loading ? (
+          <p>Loading your meetings...</p>
         ) : (
           <div className="meets-scroll-container">
-            <ul className="meets-scroll-list">
-              {meets.map((meet) => (
-                <li key={meet.id} className="meet-card">
-                  <h3>{meet.title}</h3>
-                  <p>{meet.description}</p>
-                  <div className="meet-meta">
-                    <span>{meet.place}</span>
-                    <span>{formatDate(meet.time)}</span>
-                    <span>Capacity: {meet.maxCapacity}</span>
-                      </div>
-                      <button
-                          type="button"
-                          className="cancel-attendance-btn"
-                          onClick={() => handleCancelAttendance(meet.id)}
-                          disabled={cancellingMeetupId !== null}
-                      >
-                          {cancellingMeetupId === meet.id
-                              ? "Cancelling..."
-                              : "Cancel attendance"}
-                      </button>
-                </li>
-              ))}
-            </ul>
+            <MeetingSection
+              title="Active Hosted Meetings"
+              meetings={activeHosted}
+              empty ="No active meetings"
+              onDelete={handleDelete}
+            />
+
+            <MeetingSection
+              title="Previous Hosted Meetings"
+              meetings={PreviousHosted}
+              empty ="No active meetings"
+              onDelete={handleDelete}
+            />
+
+
+            <MeetingSection
+              title="Active Meetings"
+              meetings={activeMeets}
+              emptyMessage="No active meetings."
+            />
+            <MeetingSection
+              title="Historical Meetings"
+              meetings={historicalMeets}
+              emptyMessage="No historical meetings."
+            />
           </div>
         )}
       </main>

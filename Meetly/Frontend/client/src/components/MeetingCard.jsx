@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
+
+
 
 export default function MeetingCard({id, title, description, host, date, imageUrl}){
     return(
         <Link to={`/meetup/${id}`} className="MeetingCard-link">
         <section className="MeetingCard-class">
             <div className="MeetingCardLeft">
-                <img src={imageUrl} alt="{title}" />
+                {imageUrl && <img src={imageUrl} alt={title} />}                
                 <p>{date}</p>
             </div>
             <div className="MeetingCardRight">
