@@ -97,7 +97,7 @@ export async function registerForMeetup(meetupId) {
         },
     });
     if (!res.ok) {
-        const message = await res.text();
+            const message = await res.text();
         throw new Error(message || "Registration failed");
     }
     return res.text();
@@ -106,9 +106,7 @@ export async function registerForMeetup(meetupId) {
 export async function cancelAttendance(meetupId) {
     const res = await fetch(`${API_URL}/api/meetups/${meetupId}/register`, {
         method: "DELETE",
-        headers: {
-            ...getAuthHeaders(),
-        },
+        headers: { ...getAuthHeaders() },
     });
     if (!res.ok) {
         const message = await res.text();
