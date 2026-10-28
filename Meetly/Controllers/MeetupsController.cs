@@ -21,16 +21,15 @@ public class MeetupsController : ControllerBase
     public async Task<ActionResult<List<MeetupResponse>>> GetMeetups(
         CancellationToken cancellationToken)
     {
-        var meetups = await _meetupService.GetMeetupsAsync(
-            cancellationToken);
+        var meetups = await _meetupService.GetMeetupsAsync();
 
         return Ok(meetups.Data);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<MeetupResponse>> GetMeetupById(
-        int id,
-        CancellationToken cancellationToken)
+        int id
+        )
     {
         var meetup = await _meetupService.GetMeetupByIdAsync(id);
 
@@ -44,7 +43,7 @@ public class MeetupsController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<MeetupResponse>> CreateMeetup(CreateMeetupRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<MeetupResponse>> CreateMeetup(CreateMeetupRequest request)
     {
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (!int.TryParse(userIdClaim, out var currentUserId))
@@ -54,8 +53,8 @@ public class MeetupsController : ControllerBase
 
         var meetup = await _meetupService.CreateMeetupAsync(
             request,
-            currentUserId,
-            cancellationToken);
+            currentUserId
+            );
 
         if (meetup.Data is null)
         {

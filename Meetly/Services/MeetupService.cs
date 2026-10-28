@@ -15,8 +15,7 @@ namespace Meetly.Services
             _db = db;
         }
 
-        public async Task<ServiceResult<List<MeetupResponse>>> GetMeetupsAsync(
-            CancellationToken cancellationToken)
+        public async Task<ServiceResult<List<MeetupResponse>>> GetMeetupsAsync()
         {
             var meetups = await _db.Set<Meet>()
                 .OrderBy(meet => meet.Time)
@@ -32,7 +31,7 @@ namespace Meetly.Services
                     meet.Host.UserName,
                     meet.ImageUrl
                 ))
-                .ToListAsync(cancellationToken);
+                .ToListAsync();
 
             return ServiceResult<List<MeetupResponse>>.Ok(meetups);
         }
@@ -55,10 +54,7 @@ namespace Meetly.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(
-            CreateMeetupRequest request,
-            int hostId,
-            CancellationToken cancellationToken)
+        public async Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(CreateMeetupRequest request,int hostId)
         {
             if (request.Time is null)
             {
@@ -68,9 +64,7 @@ namespace Meetly.Services
             }
 
             var host = await _db.Set<user>()
-                .SingleOrDefaultAsync(
-                    user => user.Id == request.HostId,
-                    cancellationToken);
+                .SingleOrDefaultAsync(user => user.Id == request.HostId);
 
             if (host is null)
             {
@@ -90,7 +84,7 @@ namespace Meetly.Services
             };
 
             _db.Set<Meet>().Add(meetup);
-            await _db.SaveChangesAsync(cancellationToken);
+            await _db.SaveChangesAsync();
 
             return ServiceResult<MeetupResponse?>.Ok(new MeetupResponse(
                 meetup.Id,
