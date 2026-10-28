@@ -79,7 +79,7 @@ public class MeetupsController : ControllerBase
 
         return Ok(meetups);
     }
-
+    [Authorize]
     [HttpPost("{meetupId}/register/{id}")]
     public async Task<ActionResult> RegisterUserForMeetup(int meetupId)
     {
