@@ -130,6 +130,7 @@ section:has(> .header-class) {
   min-height: 190px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
+  padding-bottom: 3rem;
 }
 .MeetingCardBottomRight{
   position: absolute;
@@ -145,6 +146,11 @@ section:has(> .header-class) {
     left: 1rem;
     font-size: 0.85rem;
     color: #6b7280;
+}
+
+.MeetingCardBottomRight p,
+.MeetingCardLeft p {
+  margin: 0;
 }
 
 .MeetingCard-class:hover {
@@ -291,12 +297,6 @@ section:has(> .header-class) {
   background-color: #0056b3;
 }
 
-@media (max-width: 768px) {
-  .meeting-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
   .MeetingCard-class {
     grid-template-columns: 1fr;
     row-gap: 1rem;
@@ -318,7 +318,7 @@ section:has(> .header-class) {
   .header-class, .footer-class {
     padding: 1rem 1.25rem;
   }
-}
+
 
 .account-page {
   display: flex;
@@ -698,4 +698,84 @@ section:has(> .header-class) {
 }
 
 
-/* -- */
+/* -MEDIA- */
+@media (max-width:900px){
+  .meeting-grid{
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+  .moreinfo-page,
+  .createmeetup-page{
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px){
+  .header-class,
+  .footer-class{
+    padding: 1rem 1.25rem;
+  }
+  .MeetingCard-class img {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    height: 160px;
+  }
+
+  .card-content{
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .moreinfo-card{
+    padding: 1.25rem;
+  }
+
+  .moreinfo-image{
+    max-width: 100%;
+    height: auto;
+  }
+
+  .createmeetup-form{
+    padding: 1.25rem;
+  }
+
+  .createmeetup-row{
+    grid-template-columns: 1fr;
+  }
+  .account-page{
+    flex-direction: column;
+    height: auto;
+    padding:16px;
+  }
+
+  .account-sidebar{
+    width: 100%;
+    gap: 16px;
+  }
+
+  .account-history{
+    overflow: visible;
+  }
+
+  .meets-scroll-container{
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 480px){
+  .login-card{
+    padding: 24px;
+  }
+
+  .Signup-Btn,
+  .Cancel-Btn{
+    width: 100%;
+  }
+
+  .moreinfo-title{
+    font-size: 1.4rem;
+  }
+}
