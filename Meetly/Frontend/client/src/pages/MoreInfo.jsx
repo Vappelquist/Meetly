@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { formatDateTime } from "../utils/formatDate";
-
+import SignupButton, { CancelParticipation } from "../components/RegisterButtons";
 
 export default function MoreInfoPage(){
     const {id} = useParams();
@@ -60,7 +60,9 @@ export default function MoreInfoPage(){
                 <h2 className="moreinfo-subtitle">Description</h2>
                 <p className="moreinfo-description">{meetup.description}</p>
             </article>
-        </main>
+            <SignupButton meetId={meetup.id}/>
+            {/* <CancelParticipation meetId={meetup.id}/> */}
+            </main>
         <Footer />
     </section>
 );

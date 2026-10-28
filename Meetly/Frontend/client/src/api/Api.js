@@ -34,12 +34,12 @@ export async function createMeetup(data) {
     return res.json();
 }
 
-export async function SignUp(meetId, id){
+export async function register(meetId, id){
     const res = await fetch(`${API_URL}/api/meetups/${meetId}/register/${id}`, {
         method: "POST",
     });
-    if (!res.ok) throw new Error("Request failed");
-    return res.json();
+    if (!res.ok) throw new Error(await res.text || "Request failed");
+    return res.text();
 }
 
 export async function deleteMeetup(id){
