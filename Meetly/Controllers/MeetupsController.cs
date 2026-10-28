@@ -1,6 +1,8 @@
 ﻿using Meetly.DTO;
 using Meetly.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Meetly.Controllers;
 
@@ -30,9 +32,7 @@ public class MeetupsController : ControllerBase
         int id,
         CancellationToken cancellationToken)
     {
-        var meetup = await _meetupService.GetMeetupByIdAsync(
-            id,
-            cancellationToken);
+        var meetup = await _meetupService.GetMeetupByIdAsync(id);
 
         if (meetup is null)
         {
@@ -42,16 +42,22 @@ public class MeetupsController : ControllerBase
         return Ok(meetup);
     }
 
+    [Authorize]
     [HttpPost]
-    public async Task<ActionResult<MeetupResponse>> CreateMeetup(
-        [FromBody] CreateMeetupRequest request,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<MeetupResponse>> CreateMeetup(CreateMeetupRequest request, CancellationToken cancellationToken)
     {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!int.TryParse(userIdClaim, out var currentUserId))
+        {
+            return Unauthorized("Invalid user token.");
+        }
+
         var meetup = await _meetupService.CreateMeetupAsync(
             request,
+            currentUserId,
             cancellationToken);
 
-        if (meetup is null)
+        if (meetup.Data is null)
         {
             return BadRequest(new
             {
@@ -76,16 +82,40 @@ public class MeetupsController : ControllerBase
     }
 
     [HttpPost("{meetupId}/register/{id}")]
-    public async Task<ActionResult> RegisterUserForMeetup(
-        int meetupId,
-        int userId)
+    public async Task<ActionResult> RegisterUserForMeetup(int meetupId)
     {
-        var result = await _meetupService.RegisterMeetAsync(meetupId, userId);
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!int.TryParse(userIdClaim, out var currentUserId))
+        {
+            return Unauthorized("Invalid user token.");
+        }
+
+        var result = await _meetupService.RegisterMeetAsync(meetupId, currentUserId);
         if (!result.Success)
         {
             return BadRequest("Couldnt register user for the meetup.");
         }
         return Ok("Successfully registered user for the meetup.");
+    }
+
+    [Authorize]
+    [HttpDelete("{meetupId:int}/register")]
+    public async Task<IActionResult> CancelAttendance(int meetupId)
+    {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!int.TryParse(userIdClaim, out var currentUserId))
+        {
+            return Unauthorized("Invalid user token.");
+        }
+
+        var result = await _meetupService.CancelAttendanceAsync(meetupId, currentUserId);
+
+        if (!result.Success)
+        {
+            return BadRequest(new { message = result.ErrorMessage });
+        }
+
+        return NoContent();
     }
 
     [HttpDelete("Delete/{Id}")]

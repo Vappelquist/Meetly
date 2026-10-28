@@ -17,28 +17,25 @@ export default function Login() {
         setErrorMessage("");
 
         try {
-            const response = await fetch(`${API_URL}/api/user/login`, {
+            const response = await fetch(`${API_URL}/api/Auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    username: username,
-                    password: password,
+                    Username: username,
+                    Password: password,
                 }),
             });
 
             if (!response.ok) {
                 const message = await response.text();
-                setErrorMessage(message || "Login failed.");
+                setErrorMessage(message || "Invalid username or password.");
                 return;
             }
 
             const responseData = await response.json();
-
-            const user = responseData.data || responseData;
-
-            login(user);
+            login(responseData);
             navigate("/");
         } catch (error) {
             console.error("Fetch error:", error);
@@ -68,9 +65,7 @@ export default function Login() {
                 Login
             </button>
             <button className="HeaderTitle-class" onClick={() => navigate("/SignUp")}>
-                <h4>
-                    Signup by clicking here
-                </h4>
+                <h4>Signup by clicking here</h4>
             </button>
         </div>
     );

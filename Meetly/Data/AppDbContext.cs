@@ -1,17 +1,20 @@
 ﻿using Meetly.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Meetly.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<user, IdentityRole<int>, int>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     public DbSet<Meet> Meet { get; set; }
-    public DbSet<user> User { get; set; }
+    public DbSet<user> User => Users;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Meet>()
@@ -24,7 +27,6 @@ public class AppDbContext : DbContext
             .HasMany(m => m.Attendes)
             .WithMany(u => u.AttendingMeets)
             .UsingEntity(j => j.HasData(
-
                 new { AttendesId = 5, AttendingMeetsId = 1 },
                 new { AttendesId = 6, AttendingMeetsId = 1 },
                 new { AttendesId = 7, AttendingMeetsId = 2 },
@@ -39,14 +41,62 @@ public class AppDbContext : DbContext
                 new { AttendesId = 8, AttendingMeetsId = 5 },
                 new { AttendesId = 9, AttendingMeetsId = 6 }
             ));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
         modelBuilder.Entity<user>().HasData(
-            new user { Id = 4, Name = "frank", PasswordHash = "password123" },
-            new user { Id = 5, Name = "grace", PasswordHash = "password123" },
-            new user { Id = 6, Name = "heidi", PasswordHash = "password123" },
-            new user { Id = 7, Name = "ivan", PasswordHash = "password123" },
-            new user { Id = 8, Name = "judy", PasswordHash = "password123" },
-            new user { Id = 9, Name = "karl", PasswordHash = "password123" }
+            new user
+            {
+                Id = 4,
+                UserName = "frank",
+                NormalizedUserName = "FRANK",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
+                SecurityStamp = "00000000-0000-0000-0000-000000000004",
+                ConcurrencyStamp = "00000000-0000-0000-0000-000000000004"
+            },
+            new user
+            {
+                Id = 5,
+                UserName = "grace",
+                NormalizedUserName = "GRACE",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
+                SecurityStamp = "00000000-0000-0000-0000-000000000005",
+                ConcurrencyStamp = "00000000-0000-0000-0000-000000000005"
+            },
+            new user
+            {
+                Id = 6,
+                UserName = "heidi",
+                NormalizedUserName = "HEIDI",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
+                SecurityStamp = "00000000-0000-0000-0000-000000000006",
+                ConcurrencyStamp = "00000000-0000-0000-0000-000000000006"
+            },
+            new user
+            {
+                Id = 7,
+                UserName = "ivan",
+                NormalizedUserName = "IVAN",
+                PasswordHash = "AQAAAAIAAYagAAAAENK5j8c3QYmP5pIu0q7tY1v8z2x4w6y8u0o2i4a6s8d0f2g4h6j8k0l2m4==",
+                SecurityStamp = "00000000-0000-0000-0000-000000000007",
+                ConcurrencyStamp = "00000000-0000-0000-0000-000000000007"
+            },
+            new user
+            {
+                Id = 8,
+                UserName = "judy",
+                NormalizedUserName = "JUDY",
+                PasswordHash = "AQAAAAIAAYagAAAAELgB3s8m3R8i5b3l/jR8O2yG9QvQ3eZ8wY8b4z7k1v2x3y4z5a6b7c8d9e0f==",
+                SecurityStamp = "00000000-0000-0000-0000-000000000008",
+                ConcurrencyStamp = "00000000-0000-0000-0000-000000000008"
+            },
+            new user
+            {
+                Id = 9,
+                UserName = "karl",
+                NormalizedUserName = "KARL",
+                PasswordHash = "AQAAAAIAAYagAAAAELgB3s8m3R8i5b3l/jR8O2yG9QvQ3eZ8wY8b4z7k1v2x3y4z5a6b7c8d9e0f==",
+                SecurityStamp = "00000000-0000-0000-0000-000000000009",
+                ConcurrencyStamp = "00000000-0000-0000-0000-000000000009"
+            }
         );
 
         modelBuilder.Entity<Meet>().HasData(
@@ -80,7 +130,6 @@ public class AppDbContext : DbContext
                 HostId = 6,
                 maxCapacity = 3
             },
-
             new Meet
             {
                 Id = 4,

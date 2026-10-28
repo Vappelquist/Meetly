@@ -1,21 +1,35 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+function getAuthHeaders() {
+    try {
+        const stored = localStorage.getItem("user");
+        const user = stored ? JSON.parse(stored) : null;
+        return user?.token ? { Authorization: `Bearer ${user.token}` } : {};
+    } catch {
+        return {};
+    }
+}
+
 export async function getHealth() {
     const res = await fetch(`${API_URL}/health`);
     if (!res.ok) throw new Error("Request failed");
     return res.text();
 }
 
-export async function getMeets(){
-    const res = await fetch (`${API_URL}/api/meetups`)
+export async function getMeets() {
+    const res = await fetch(`${API_URL}/api/meetups`);
     if (!res.ok) throw new Error("Request failed");
     return res.json();
 }
 
-export async function apiFetchCall(apiCall){
-    const res = await fetch(`${API_URL}/api/${apiCall}`)
+export async function apiFetchCall(apiCall) {
+    const res = await fetch(`${API_URL}/api/${apiCall}`, {
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
     if (!res.ok) throw new Error("Request failed");
-    return res.json();  
+    return res.json();
 }
 
 export async function getMeetById(id, signal) {
@@ -27,24 +41,52 @@ export async function getMeetById(id, signal) {
 export async function createMeetup(data) {
     const res = await fetch(`${API_URL}/api/meetups`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders(),
+        },
         body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error("Request failed");
+    if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || "Request failed");
+    }
     return res.json();
 }
 
-export async function register(meetId, id){
-    const res = await fetch(`${API_URL}/api/meetups/${meetId}/register/${id}`, {
+export async function registerForMeetup(meetupId) {
+    const res = await fetch(`${API_URL}/api/meetups/${meetupId}/register/0`, {
         method: "POST",
+        headers: {
+            ...getAuthHeaders(),
+        },
     });
-    if (!res.ok) throw new Error(await res.text || "Request failed");
+    if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || "Registration failed");
+    }
     return res.text();
 }
 
-export async function deleteMeetup(id){
+export async function cancelAttendance(meetupId) {
+    const res = await fetch(`${API_URL}/api/meetups/${meetupId}/register`, {
+        method: "DELETE",
+        headers: {
+            ...getAuthHeaders(),
+        },
+    });
+    if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || "Could not cancel attendance");
+    }
+}
+
+export async function deleteMeetup(id) {
     const res = await fetch(`${API_URL}/api/meetups/Delete/${id}`, {
         method: "DELETE",
+        headers: {
+            ...getAuthHeaders(),
+        },
     });
     if (!res.ok) throw new Error("Request failed");
 }

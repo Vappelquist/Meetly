@@ -29,7 +29,7 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name,
+                    meet.Host.UserName,
                     meet.ImageUrl
                 ))
                 .ToListAsync(cancellationToken);
@@ -37,11 +37,9 @@ namespace Meetly.Services
             return ServiceResult<List<MeetupResponse>>.Ok(meetups);
         }
 
-        public async Task<MeetupResponse?> GetMeetupByIdAsync(
-            int id,
-            CancellationToken cancellationToken)
+        public async Task<MeetupResponse?> GetMeetupByIdAsync(int id)
         {
-            return await _db.Set<Meet>()
+               return await _db.Set<Meet>()
                 .Where(meet => meet.Id == id)
                 .Select(meet => new MeetupResponse(
                     meet.Id,
@@ -51,14 +49,15 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name,
+                    meet.Host.UserName,
                     meet.ImageUrl
                 ))
-                .SingleOrDefaultAsync(cancellationToken);
+                .SingleOrDefaultAsync();
         }
 
         public async Task<ServiceResult<MeetupResponse?>> CreateMeetupAsync(
             CreateMeetupRequest request,
+            int hostId,
             CancellationToken cancellationToken)
         {
             if (request.Time is null)
@@ -101,7 +100,7 @@ namespace Meetly.Services
                 meetup.Time,
                 meetup.maxCapacity,
                 host.Id,
-                host.Name,
+                host.UserName,
                 meetup.ImageUrl
             ));
         }
@@ -124,7 +123,7 @@ namespace Meetly.Services
                     meet.Time,
                     meet.maxCapacity,
                     meet.HostId,
-                    meet.Host.Name,
+                    meet.Host.UserName,
                     meet.ImageUrl
                 ))
                 .ToListAsync();
@@ -153,6 +152,30 @@ namespace Meetly.Services
             }
 
             meetup.Attendes.Add(user);
+            await _db.SaveChangesAsync();
+
+            return ServiceResult<bool>.Ok(true);
+        }
+
+        public async Task<ServiceResult<bool>> CancelAttendanceAsync(int meetupId, int userId)
+        {
+            var meetup = await _db.Set<Meet>()
+                .Include(m => m.Attendes)
+                .FirstOrDefaultAsync(m => m.Id == meetupId);
+
+            if (meetup is null)
+            {
+                return ServiceResult<bool>.Fail("Meetup not found.");
+            }
+
+            var attendee = meetup.Attendes.FirstOrDefault(u => u.Id == userId);
+
+            if (attendee is null)
+            {
+                return ServiceResult<bool>.Fail("You are not registered for this meetup.");
+            }
+
+            meetup.Attendes.Remove(attendee);
             await _db.SaveChangesAsync();
 
             return ServiceResult<bool>.Ok(true);
