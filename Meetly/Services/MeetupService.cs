@@ -146,6 +146,11 @@ namespace Meetly.Services
                 return ServiceResult<bool>.Fail("User is already registered for this meetup");
             }
 
+            if(meetup.Attendes.Count >= meetup.maxCapacity)
+            {
+                return ServiceResult<bool>.Fail("Meetup is at full capacity.");
+            }
+
             meetup.Attendes.Add(user);
             await _db.SaveChangesAsync();
 

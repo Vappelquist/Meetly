@@ -582,7 +582,8 @@ section:has(> .header-class) {
   display: block;
   height: 100%;
   max-width: 500px;
-  object-fit: cover;
+  max-height: 400px;
+  object-fit: contain;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
   margin-bottom: 1.5rem;
@@ -779,3 +780,52 @@ section:has(> .header-class) {
     font-size: 1.4rem;
   }
 }
+.Signup-Btn,
+.Cancel-Btn {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.Signup-Btn {
+  background-color: var(--orange);
+  color: #ffffff;
+  border: 2px solid var(--orange);
+}
+
+.Cancel-Btn {
+  background-color: transparent;
+  color: var(--navy);
+  border: 2px solid var(--navy);
+}
+
+.Signup-Btn:hover:not(:disabled),
+.Cancel-Btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 32, 70, 0.18);
+}
+
+.Cancel-Btn:hover:not(:disabled) {
+  background-color: var(--navy);
+  color: #ffffff;
+}
+
+.Signup-Btn:focus-visible,
+.Cancel-Btn:focus-visible {
+  outline: 2px solid var(--turquoise);
+  outline-offset: 2px;
+}
+
+.Signup-Btn:disabled,
+.Cancel-Btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -- */
