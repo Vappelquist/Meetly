@@ -1,0 +1,31 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [Dev]
+  pull_request:
+    branches: [Dev]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Meetly/Frontend/client
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '24.x'
+        cache: 'npm'
+        cache-dependency-path: Meetly/Frontend/client/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build project
+      env:
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      run: npm run build

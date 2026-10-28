@@ -4,3 +4,20 @@ GET {{Meetly_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+### List meetups
+GET {{Meetly_HostAddress}}/api/meetups
+Accept: application/json
+
+### Create a development test meetup
+POST {{Meetly_HostAddress}}/api/meetups
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "C# study meetup",
+  "description": "Practice APIs together.",
+  "place": "Campus",
+  "time": "2026-10-28T14:00:00",
+  "maxCapacity": 10,
+  "hostId": d
+}

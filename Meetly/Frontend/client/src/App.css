@@ -1,0 +1,831 @@
+:root {
+  --navy: #002046;
+  --orange: #DF622C;
+  --turquoise: #55BDCA;
+  --muted-teal: #80A1A6;
+  --aqua: #93FFFF;
+  --bg-light: #f4f8fa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--navy);
+  min-height: 100vh;
+}
+
+section:has(> .header-class) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header-class {
+    background-color: var(--navy);
+    color: #ffffff;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 440px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    box-shadow: 0 4px 12px rgba(0, 32, 70, 0.15);
+}
+
+.header-class h1 {
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  color: var(--aqua);
+  font-weight: 700;
+}
+
+.HeaderTitle-class {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+} 
+
+.HeaderTitle-class h1 {
+  margin: 0;
+}
+
+.LoginButton-class {
+  background-color: var(--orange);
+  color: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
+}
+
+.LoginButton-class:hover {
+  background-color: #c9511e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(223, 98, 44, 0.45);
+}
+
+.BackButton-class {
+  width: fit-content;
+  align-self: flex-start;
+  margin-top: 20px;
+  margin-left: 20px;
+  border-radius: 25px;
+  padding: 10px 22px;
+  background-color: var(--orange);
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  outline: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 6px rgba(223, 98, 44, 0.3);
+}
+
+.BackButton-class:hover {
+  background-color: #c9511e;
+  transform: translateY(-1px);
+}
+
+.meeting-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.MeetingCard-class {
+  background-color: #ffffff;
+  border: 1px solid var(--muted-teal);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  margin: 0;
+  box-shadow: 0 6px 16px rgba(0, 32, 70, 0.08);
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0.75rem;
+  align-items: start;
+  min-height: 190px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  padding-bottom: 3rem;
+}
+.MeetingCardBottomRight{
+  position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.MeetingCardLeft p {
+  position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.MeetingCardBottomRight p,
+.MeetingCardLeft p {
+  margin: 0;
+}
+
+.MeetingCard-class:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 32, 70, 0.14);
+}
+
+.MeetingCard-class img {
+
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width:fit-content;
+  height: fit-content;
+  max-width: 160px;
+  max-height: 120px;
+  border-radius: 8px;
+  object-fit: contain;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  align-self: start;
+}
+
+
+
+/* .MeetingCard-class h2 {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--navy);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 3px solid var(--turquoise);
+  padding-bottom: 4px;
+  margin: 0;
+  text-align: left;
+} */
+
+/* .MeetingCard-class p {
+  grid-column: 2;
+  grid-row: 2;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
+  margin: 0;
+}  */
+
+.card-content {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card-content h2 {
+  color: var(--navy);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 3px solid var(--turquoise);
+  padding-bottom: 4px;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.card-content p {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.footer-class {
+  background-color: var(--navy);
+  color: var(--muted-teal);
+  text-align: left;
+  padding: 1.5rem 2.5rem;
+  margin-top: auto;
+  border-top: 2px solid var(--turquoise);
+}
+
+.footer-class h1 {
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.login-page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-wrapper {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 550px;
+  max-width: 90vw;
+  padding: 40px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background-color: var(--bg-light);
+  box-sizing: border-box;
+  height: auto;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #007bff;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-submit-btn:hover {
+  background-color: #0056b3;
+}
+
+  .MeetingCard-class {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
+
+  .MeetingCard-class img {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 160px;
+  }
+
+  .MeetingCard-class h2,
+  .MeetingCard-class p,
+  .card-content {
+    grid-column: 1;
+  }
+
+  .header-class, .footer-class {
+    padding: 1rem 1.25rem;
+  }
+
+
+.account-page {
+  display: flex;
+  height: calc(100vh - 80px);
+  gap: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.account-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.account-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.account-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #0078d4;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.account-role {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.account-logout-btn {
+  padding: 10px;
+  border: 1px solid #d9534f;
+  background-color: transparent;
+  color: #d9534f;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.account-logout-btn:hover {
+  background-color: #d9534f;
+  color: white;
+}
+
+.account-history {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.meets-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.meets-scroll-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meet-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.meet-card h3 {
+  margin: 0 0 6px 0;
+}
+
+.meet-card p {
+  margin: 0 0 10px 0;
+  color: #444;
+}
+
+.meet-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.header-class > .HeaderTitle-class {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.header-account {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.header-search {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+}
+
+    .header-search input {
+        flex: 1;
+        min-width: 0;
+        padding: 10px 12px;
+        border: 1px solid var(--muted-teal);
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+
+        .header-search input:focus {
+            outline: 2px solid var(--turquoise);
+            outline-offset: 2px;
+        }
+
+    .header-search button {
+        padding: 10px 16px;
+        background-color: var(--orange);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .header-search button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+@media (max-width: 768px) {
+    .header-class {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .header-account {
+        grid-column: 2;
+    }
+
+    .header-search {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        max-width: 440px;
+        justify-self: center;
+    }
+
+
+}
+
+.no-results-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 1rem;
+    color:var(--orange);
+    font-weight:bold;
+    font-size: 1.1rem;
+}
+.MeetingCard-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.moreinfo-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  flex: 1;
+}
+
+.moreinfo-back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.moreinfo-back:hover {
+  color: var(--orange);
+}
+
+.moreinfo-card {
+  background-color: #ffffff;
+  border: 1px solid var(--muted-teal);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 16px rgba(0, 32, 70, 0.08);
+}
+
+.moreinfo-title {
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.5rem;
+  color: var(--navy);
+  font-size: 1.8rem;
+  border-bottom: 3px solid var(--turquoise);
+}
+
+.moreinfo-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+  margin: 0 0 1.5rem;
+}
+
+.moreinfo-label {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+.moreinfo-value {
+  margin: 0.15rem 0 0;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.moreinfo-subtitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--navy);
+}
+
+.moreinfo-description {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+.moreinfo-image {
+  display: block;
+  height: 100%;
+  max-width: 500px;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+  justify-self: center;
+}
+.meet-delete-btn {
+  margin-top: 0.75rem;
+  background-color: var(--orange);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}
+
+/* -- */
+.createmeetup-page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  flex: 1;
+}
+
+.createmeetup-page h1 {
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.5rem;
+  color: var(--navy);
+  border-bottom: 3px solid var(--turquoise);
+}
+
+.createmeetup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background-color: #ffffff;
+  border: 1px solid var(--muted-teal);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 16px rgba(0, 32, 70, 0.08);
+}
+
+.createmeetup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.createmeetup-field > span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+.createmeetup-field input,
+.createmeetup-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--muted-teal);
+  border-radius: 6px;
+  font: inherit;
+  color: var(--navy);
+  background-color: #ffffff;
+}
+
+.createmeetup-field textarea {
+  resize: vertical;
+}
+
+.createmeetup-field input:focus,
+.createmeetup-field textarea:focus {
+  outline: 2px solid var(--turquoise);
+  outline-offset: 2px;
+}
+
+.createmeetup-counter {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.createmeetup-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+.createmeetup-submit {
+  align-self: flex-start;
+  padding: 10px 24px;
+  background-color: var(--orange);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.createmeetup-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 32, 70, 0.18);
+}
+
+.createmeetup-error {
+  margin: 0;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+
+/* -MEDIA- */
+@media (max-width:900px){
+  .meeting-grid{
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+  .moreinfo-page,
+  .createmeetup-page{
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px){
+  .header-class,
+  .footer-class{
+    padding: 1rem 1.25rem;
+  }
+  .MeetingCard-class img {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    height: 160px;
+  }
+
+  .card-content{
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .moreinfo-card{
+    padding: 1.25rem;
+  }
+
+  .moreinfo-image{
+    max-width: 100%;
+    height: auto;
+  }
+
+  .createmeetup-form{
+    padding: 1.25rem;
+  }
+
+  .createmeetup-row{
+    grid-template-columns: 1fr;
+  }
+  .account-page{
+    flex-direction: column;
+    height: auto;
+    padding:16px;
+  }
+
+  .account-sidebar{
+    width: 100%;
+    gap: 16px;
+  }
+
+  .account-history{
+    overflow: visible;
+  }
+
+  .meets-scroll-container{
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 480px){
+  .login-card{
+    padding: 24px;
+  }
+
+  .Signup-Btn,
+  .Cancel-Btn{
+    width: 100%;
+  }
+
+  .moreinfo-title{
+    font-size: 1.4rem;
+  }
+}
+.Signup-Btn,
+.Cancel-Btn {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.Signup-Btn {
+  background-color: var(--orange);
+  color: #ffffff;
+  border: 2px solid var(--orange);
+}
+
+.Cancel-Btn {
+  background-color: transparent;
+  color: var(--navy);
+  border: 2px solid var(--navy);
+}
+
+.Signup-Btn:hover:not(:disabled),
+.Cancel-Btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 32, 70, 0.18);
+}
+
+.Cancel-Btn:hover:not(:disabled) {
+  background-color: var(--navy);
+  color: #ffffff;
+}
+
+.Signup-Btn:focus-visible,
+.Cancel-Btn:focus-visible {
+  outline: 2px solid var(--turquoise);
+  outline-offset: 2px;
+}
+
+.Signup-Btn:disabled,
+.Cancel-Btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -- */
