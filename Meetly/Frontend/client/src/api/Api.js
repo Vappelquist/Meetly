@@ -54,6 +54,41 @@ export async function createMeetup(data) {
     return res.json();
 }
 
+export async function register(name, password) {
+    const res = await fetch(`${API_URL}/api/Auth/register`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, password }),
+    });
+
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message = Array.isArray(errorData) ? errorData.join(", ") : await res.text();
+        throw new Error(message || "Registration failed");
+    }
+
+    return res.json().catch(() => ({}));
+}
+
+export async function login(username, password) {
+    const res = await fetch(`${API_URL}/api/Auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Username: username, Password: password }),
+    });
+
+    if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || "Login failed");
+    }
+
+    return res.json();
+}
+
 export async function registerForMeetup(meetupId) {
     const res = await fetch(`${API_URL}/api/meetups/${meetupId}/register/0`, {
         method: "POST",
@@ -90,3 +125,5 @@ export async function deleteMeetup(id) {
     });
     if (!res.ok) throw new Error("Request failed");
 }
+
+export const SignUp = registerForMeetup;
